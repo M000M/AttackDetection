@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>DockerKubernetestDemo</artifactId>
+    <artifactId>docker-service80</artifactId>
 
     <dependencies>
         <dependency>
@@ -63,6 +63,18 @@
         </dependency>
 
         <dependency>
+            <groupId>cn.edu.pku</groupId>
+            <artifactId>api-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!--现在新版本（当前使用2020.2）-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.github.docker-java</groupId>
             <artifactId>docker-java</artifactId>
             <version>3.2.2</version>
@@ -75,15 +87,10 @@
         </dependency>
 
         <dependency>
-            <groupId>io.kubernetes</groupId>
-            <artifactId>client-java</artifactId>
-            <version>10.0.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.4</version>
         </dependency>
     </dependencies>
+
 </project>
