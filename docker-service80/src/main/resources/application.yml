@@ -1,9 +1,9 @@
 server:
-  port: 8081
+  port: 8000
 
 spring:
   application:
-    name: docker-service80
+    name: cloud-docker-service
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
@@ -19,11 +19,11 @@ eureka:
     fetch-registry: true
     service-url:
       # 单机版
-      defaultZone: http://localhost:7001/eureka
+      # defaultZone: http://localhost:7001/eureka
       # 集群版
-      # defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka # 集群版
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka # 集群版
   instance:
-    instance-id: payment8001
+    instance-id: cloud-docker-service80
     prefer-ip-address: true
     # 心跳检测也续约时间
     # 开发时设置小些，保证服务关闭后注册中心能及时剔除服务
@@ -35,8 +35,8 @@ eureka:
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.atguigu.springcloud.entites
+  type-aliases-package: cn.edu.pku.entities
 
 
 docker:
-  host: "tcp://127.0.0.1:2375"
+  host: "tcp://10.4.7.80:2375"

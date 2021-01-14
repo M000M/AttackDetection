@@ -14,6 +14,9 @@
         <module>eureka-server7001</module>
         <module>eureka-server7002</module>
         <module>api-commons</module>
+        <module>docker-service81</module>
+        <module>docker-service82</module>
+        <module>cloud-sandbox-service</module>
     </modules>
 
     <!--统一管理jar包版本-->
