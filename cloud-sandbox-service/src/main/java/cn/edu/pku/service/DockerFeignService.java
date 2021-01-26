@@ -1,7 +1,7 @@
 package cn.edu.pku.service;
 
+import cn.edu.pku.entities.ContainerInfo;
 import com.github.dockerjava.api.command.CreateContainerResponse;
-import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.Image;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ public interface DockerFeignService {
     List<Image> listImages();
 
     @RequestMapping(value = "/container/containers", method = RequestMethod.GET)
-    List<Container> listContainers();
+    List<ContainerInfo> listContainers();
 
     @RequestMapping(value = "/container/create", method = RequestMethod.GET)
     CreateContainerResponse createContainer(@RequestParam("containerName") String containerName,

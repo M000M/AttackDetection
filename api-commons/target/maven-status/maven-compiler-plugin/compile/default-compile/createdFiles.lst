@@ -1,0 +1,5 @@
+cn/edu/pku/entities/CommonResult.class
+cn/edu/pku/entities/Host.class
+cn/edu/pku/entities/ContainerInfo.class
+cn/edu/pku/utils/JsonUtils.class
+cn/edu/pku/entities/ImageInfo.class

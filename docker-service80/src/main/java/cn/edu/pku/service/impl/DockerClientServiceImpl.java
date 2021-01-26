@@ -1,6 +1,8 @@
 package cn.edu.pku.service.impl;
 
+import cn.edu.pku.entities.ContainerInfo;
 import cn.edu.pku.service.DockerClientService;
+import cn.edu.pku.utiles.TimeUtils;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.command.InspectContainerResponse;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -18,6 +22,9 @@ public class DockerClientServiceImpl implements DockerClientService {
 
     @Value("${docker.host}")
     private String dockerHost;
+
+    @Value("${docker.ipAddress}")
+    private String ipAddress;
 
     @Resource
     private DockerClient dockerClient;
@@ -28,8 +35,39 @@ public class DockerClientServiceImpl implements DockerClientService {
     }
 
     @Override
-    public List<Container> listContainers() {
-        return dockerClient.listContainersCmd().exec();
+    public List<ContainerInfo> listContainers() {
+        List<Container> containers = dockerClient.listContainersCmd().exec();
+        List<ContainerInfo> results = new ArrayList<>();
+        for (Container container: containers) {
+            ContainerInfo result = new ContainerInfo();
+
+            result.setContainerId(container.getId());
+
+            result.setImage(container.getImage());
+
+            result.setName(container.getNames()[0]);
+
+            int privatePort = 0;
+            if (container.getPorts()[0].getPrivatePort() != null) {
+                privatePort = container.getPorts()[0].getPrivatePort();
+
+            }
+            result.setPrivatePort(privatePort);
+
+            int publicPort = 0;
+            if (container.getPorts()[0].getPublicPort() != null) {
+                publicPort = container.getPorts()[0].getPublicPort();
+            }
+            result.setPublicPort(publicPort);
+
+            result.setState(container.getState());
+            result.setStatus(container.getStatus());
+            result.setHost(ipAddress);
+            result.setCreateTime(new Date(container.getCreated() * 1000));
+
+            results.add(result);
+        }
+        return results;
     }
 
     /***

@@ -15,6 +15,7 @@
         <module name="eureka-server7002" />
         <module name="docker-service81" />
         <module name="DockerKubernetesDemo" />
+        <module name="system-management" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

@@ -1,17 +1,16 @@
 package cn.edu.pku.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class CommonResult<T> {
+    private boolean status = true;  // 结果状态
 
-    private Integer code;
+    private T data;          // 结果数据
 
-    private String  msg;
-
-    private T       data;
+    private String msg;      // 结果信息
 }

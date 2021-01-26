@@ -1,10 +1,12 @@
 package cn.edu.pku.controller;
 
+import cn.edu.pku.entities.CommonResult;
+import cn.edu.pku.entities.ContainerInfo;
 import cn.edu.pku.service.DockerFeignService;
 import com.github.dockerjava.api.command.CreateContainerResponse;
-import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.Image;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +16,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
+@CrossOrigin
 @RequestMapping(value = "/sandbox")
 public class CloudSandboxController {
 
@@ -31,13 +34,18 @@ public class CloudSandboxController {
     }
 
     @RequestMapping(value = "/containers", method = RequestMethod.GET)
-    public List<Container> listContainers() {
+    public CommonResult<List<ContainerInfo>> listContainers() {
+        CommonResult<List<ContainerInfo>> result = new CommonResult<>();
         try {
-            return dockerFeignService.listContainers();
+            List<ContainerInfo> containers = dockerFeignService.listContainers();
+            result.setData(containers);
+            result.setMsg("查询运行的容器成功");
         } catch (Exception e) {
-            System.out.println(e);
-            return null;
+            result.setStatus(false);
+            result.setMsg("查询运行的容器异常");
+            e.printStackTrace();
         }
+        return result;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
