@@ -1,9 +1,12 @@
 package cn.edu.pku.demo;
 
+import cn.edu.pku.utils.JsonUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.command.InspectContainerResponse;
+import com.github.dockerjava.api.command.InspectVolumeResponse;
+import com.github.dockerjava.api.command.ListVolumesResponse;
 import com.github.dockerjava.api.model.*;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientConfig;
@@ -11,9 +14,13 @@ import com.github.dockerjava.core.DockerClientImpl;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
 
+import java.util.Collections;
+import java.util.List;
+
 public class DockerDemo {
 
-    private static String dockerHost = "tcp://127.0.0.1:2375";
+//    private static String dockerHost = "tcp://127.0.0.1:2375";
+    private static String dockerHost = "tcp://192.168.1.80:2375";
 
     private static DockerClient dockerClient;
 
@@ -45,10 +52,13 @@ public class DockerDemo {
         Ports portBinding = new Ports();
         portBinding.bind(tcp80, Ports.Binding.bindPort(9003));
 
+        Volume volume = new Volume("/var/cowrie01"); //容器里面的路径
+
         CreateContainerResponse response = dockerClient.createContainerCmd(imageName)
                 .withName(containerName)
                 .withHostConfig(HostConfig.newHostConfig().withPortBindings(portBinding))
                 .withExposedPorts(tcp80)
+                .withHostConfig(new HostConfig().withBinds(new Bind("/log/cowrie", volume)))
                 .exec();
         String name = getContainerName(response.getId());
         System.out.println("Create container " + name + " success.");
@@ -79,18 +89,7 @@ public class DockerDemo {
     }
 
     public static void main(String[] args) {
-//        String containerName = "nginx05";
-//        String image = "nginx";
-//        CreateContainerResponse response = createContainer(containerName, image);
-//        System.out.println(response);
-
-//        startContainer("1d3c22bef4384a37ceb12559906ecf18caa8866b1b9a1fdfeb4f488c362ed976");
-
-//        stopContainer("1d3c22bef4384a37ceb12559906ecf18caa8866b1b9a1fdfeb4f488c362ed976");
-
-        removeContainer("1d3c22bef4384a37ceb12559906ecf18caa8866b1b9a1fdfeb4f488c362ed976");
-
-//        String name = getContainerName("1d3c22bef4384a37ceb12559906ecf18caa8866b1b9a1fdfeb4f488c362ed976");
-//        System.out.println(name);
+        CreateContainerResponse response = createContainer("cowrie01", "cowrie/cowrie");
+        startContainer(response.getId());
     }
 }

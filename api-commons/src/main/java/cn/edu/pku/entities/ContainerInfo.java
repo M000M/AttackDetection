@@ -31,12 +31,16 @@ public class ContainerInfo {
 
     private String status;      // 容器运行了多久
 
+    private String logPath;     // 日志目录
+
     private int privatePort;    // 容器内部端口
 
     private int publicPort;     // 容器外部映射端口
 
     private String host;        // 容器宿主机的IP地址
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime;  // 容器创建时间
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createTime;    // 容器创建时间
+
+    private int valid;          // 容器是否被删除：1没有；0被删除
 }

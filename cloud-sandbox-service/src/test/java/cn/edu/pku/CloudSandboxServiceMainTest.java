@@ -1,6 +1,7 @@
 package cn.edu.pku;
 
 import cn.edu.pku.entities.Host;
+import cn.edu.pku.service.DockerContainerService;
 import cn.edu.pku.service.HostsService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +17,9 @@ public class CloudSandboxServiceMainTest {
 
     @Resource
     private HostsService hostsService;
+
+    @Resource
+    private DockerContainerService dockerContainerService;
 
     @Test
     public void testAllHosts() {
@@ -33,12 +37,7 @@ public class CloudSandboxServiceMainTest {
     }
 
     @Test
-    public void testUpdate() {
-
-    }
-
-    @Test
-    public void testGetHostById() {
-
+    public void getRunningContainers() {
+        dockerContainerService.runningContainers();
     }
 }

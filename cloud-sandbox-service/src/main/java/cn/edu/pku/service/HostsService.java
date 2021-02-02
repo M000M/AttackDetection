@@ -12,4 +12,8 @@ public interface HostsService {
     boolean addHost(Host host);
 
     boolean update(Host host);
+
+    List<Host> activeHost();
+
+    Host getHostByIp(String ip);
 }

@@ -36,7 +36,9 @@ public class DockerClientServiceImpl implements DockerClientService {
 
     @Override
     public List<ContainerInfo> listContainers() {
-        List<Container> containers = dockerClient.listContainersCmd().exec();
+        List<Container> containers = dockerClient.listContainersCmd()
+                .withShowAll(true)
+                .exec();
         List<ContainerInfo> results = new ArrayList<>();
         for (Container container: containers) {
             ContainerInfo result = new ContainerInfo();
@@ -48,18 +50,13 @@ public class DockerClientServiceImpl implements DockerClientService {
             result.setName(container.getNames()[0]);
 
             int privatePort = 0;
-            if (container.getPorts()[0].getPrivatePort() != null) {
-                privatePort = container.getPorts()[0].getPrivatePort();
-
-            }
-            result.setPrivatePort(privatePort);
-
             int publicPort = 0;
-            if (container.getPorts()[0].getPublicPort() != null) {
+            if (container.getPorts().length > 0 && container.getPorts()[0].getPrivatePort() != null && container.getPorts()[0].getPublicPort() != null) {
+                privatePort = container.getPorts()[0].getPrivatePort();
                 publicPort = container.getPorts()[0].getPublicPort();
             }
+            result.setPrivatePort(privatePort);
             result.setPublicPort(publicPort);
-
             result.setState(container.getState());
             result.setStatus(container.getStatus());
             result.setHost(ipAddress);

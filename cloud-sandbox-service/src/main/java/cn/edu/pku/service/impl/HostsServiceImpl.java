@@ -27,6 +27,7 @@ public class HostsServiceImpl implements HostsService {
             res = hostsMapper.addHost(host);
         } else {
             host1.setState(1);
+            host1.setPort(host.getPort());
             res = hostsMapper.update(host1);
         }
         return res > 0;
@@ -36,5 +37,15 @@ public class HostsServiceImpl implements HostsService {
     public boolean update(Host host) {
         int res = hostsMapper.update(host);
         return res > 0;
+    }
+
+    @Override
+    public List<Host> activeHost() {
+        return hostsMapper.activeHosts();
+    }
+
+    @Override
+    public Host getHostByIp(String ip) {
+        return hostsMapper.getHostByIp(ip);
     }
 }

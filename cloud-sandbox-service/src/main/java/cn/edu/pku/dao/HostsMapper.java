@@ -16,4 +16,6 @@ public interface HostsMapper {
     int update(Host host);
 
     Host getHostByIp(@Param("ip") String ip);
+
+    List<Host> activeHosts();
 }

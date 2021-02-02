@@ -38,54 +38,51 @@ public class DockerClientController {
         }
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String createContainer(@RequestParam(value = "containerName") String containerName,
-                                  @RequestParam(value = "imageName") String imageName,
-                                  @RequestParam(value = "exposedPort") int exposedPort,
-                                  @RequestParam(value = "bindingPort") int bindingPort) {
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public ContainerInfo createContainer(@RequestBody ContainerInfo containerInfo) {
         try {
-            CreateContainerResponse response = dockerClientService.createContainer(containerName, imageName, exposedPort, bindingPort);
-            if (response != null) {
-                return response.getId();
+            containerInfo = dockerClientService.createContainer(containerInfo);
+            if (containerInfo.getContainerId() != null) {
+                return containerInfo;
             } else {
                 return null;
             }
         } catch (Exception e) {
-            System.out.println(e);
-            return "There's some problem in creating the container";
+            e.printStackTrace();
         }
+        return null;
     }
 
     @RequestMapping(value = "/start", method = RequestMethod.GET)
-    public String startContainer(@RequestParam(value = "containerId") String containerId) {
+    public Boolean startContainer(@RequestParam(value = "containerId") String containerId) {
         try {
             dockerClientService.startContainer(containerId);
-            return "Start " + containerId + " Success";
+            return true;
         } catch (Exception e) {
-            System.out.println(e);
-            return "There's some problem in starting the container " + containerId;
+            e.printStackTrace();
+            return false;
         }
     }
 
     @RequestMapping(value = "/stop", method = RequestMethod.GET)
-    public String stopContainer(@RequestParam(value = "containerId") String containerId) {
+    public Boolean stopContainer(@RequestParam(value = "containerId") String containerId) {
         try {
             dockerClientService.stopContainer(containerId);
-            return "Stop " + containerId + " Success";
+            return true;
         } catch (Exception e) {
-            System.out.println(e);
-            return "There's some problem in stopping the container " + containerId;
+            e.printStackTrace();
+            return false;
         }
     }
 
     @RequestMapping(value = "/remove", method = RequestMethod.GET)
-    public String removeContainer(@RequestParam(value = "containerId") String containerId) {
+    public Boolean removeContainer(@RequestParam(value = "containerId") String containerId) {
         try {
             dockerClientService.removeContainer(containerId);
-            return "remove " + containerId + " Success";
+            return true;
         } catch (Exception e) {
-            System.out.println(e);
-            return "There's some problem in removing the container " + containerId;
+            e.printStackTrace();
+            return false;
         }
     }
 }

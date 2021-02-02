@@ -1,18 +1,17 @@
 package cn.edu.pku.controller;
 
+import cn.edu.pku.entities.ContainerInfo;
 import cn.edu.pku.service.DockerClientService;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.Image;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/container")
 public class DockerClientController {
 
@@ -30,7 +29,7 @@ public class DockerClientController {
     }
 
     @RequestMapping(value = "/containers", method = RequestMethod.GET)
-    public List<Container> listContainers() {
+    public List<ContainerInfo> listContainers() {
         try {
             return dockerClientService.listContainers();
         } catch (Exception e) {

@@ -40,3 +40,4 @@ mybatis:
 
 docker:
   host: "tcp://192.168.1.82:2375"
+  ipAddress: "192.168.1.82"

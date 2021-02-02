@@ -5,6 +5,7 @@ import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.model.Image;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,11 +22,8 @@ public interface DockerFeignService {
     @RequestMapping(value = "/container/containers", method = RequestMethod.GET)
     List<ContainerInfo> listContainers();
 
-    @RequestMapping(value = "/container/create", method = RequestMethod.GET)
-    CreateContainerResponse createContainer(@RequestParam("containerName") String containerName,
-                                            @RequestParam("imageName") String imageName,
-                                            @RequestParam("exposedPort") int exposedPort,
-                                            @RequestParam("bindingPort") int bindingPort) throws InterruptedException;
+    @RequestMapping(value = "/container/create", method = RequestMethod.POST)
+    ContainerInfo createContainer(@RequestBody ContainerInfo containerInfo);
 
     @RequestMapping(value = "/container/start", method = RequestMethod.GET)
     void startContainer(@RequestParam("containerId") String containerId);

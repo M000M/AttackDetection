@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.pku.dao.DockerContainerMapper">
+    <resultMap type="cn.edu.pku.entities.ContainerInfo" id="container">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="containerId" column="container_id" jdbcType="VARCHAR"/>
+        <result property="image" column="image" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="logPath" column="log_path" jdbcType="VARCHAR"/>
+        <result property="privatePort" column="private_port" jdbcType="INTEGER"/>
+        <result property="publicPort" column="public_port" jdbcType="INTEGER"/>
+        <result property="host" column="host" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="valid" column="valid" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="listContainers" parameterType="cn.edu.pku.entities.ContainerInfo" resultMap="container">
+        select * from containers_info where valid=1;
+    </select>
+
+    <select id="runningContainers" parameterType="cn.edu.pku.entities.ContainerInfo" resultMap="container">
+        select * from containers_info where valid=1 and `state`="Running";
+    </select>
+
+    <select id="exitedContainers" parameterType="cn.edu.pku.entities.ContainerInfo" resultMap="container">
+        select * from containers_info where valid=1 and `state`="Exited";
+    </select>
+
+    <insert id="createContainer" parameterType="cn.edu.pku.entities.ContainerInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into containers_info values(#{id}, #{name}, #{containerId}, #{image}, #{state}, #{status}, #{logPath},
+                                           #{privatePort}, #{publicPort}, #{host}, #{createTime}, #{valid});
+    </insert>
+
+    <update id="updateContainer" parameterType="cn.edu.pku.entities.ContainerInfo">
+        update containers_info set `state`=#{state}, `valid`=#{valid} where `id`=#{id};
+    </update>
+</mapper>
