@@ -18,16 +18,16 @@
         <result property="valid" column="valid" jdbcType="INTEGER"/>
     </resultMap>
 
-    <select id="listContainers" parameterType="cn.edu.pku.entities.ContainerInfo" resultMap="container">
-        select * from containers_info where valid=1;
+    <select id="listContainers" resultMap="container" parameterType="java.lang.String">
+        select * from containers_info where valid=1 and `host`=#{host};
     </select>
 
-    <select id="runningContainers" parameterType="cn.edu.pku.entities.ContainerInfo" resultMap="container">
-        select * from containers_info where valid=1 and `state`="Running";
+    <select id="runningContainers" resultMap="container" parameterType="java.lang.String">
+        select * from containers_info where valid=1 and `host`=#{host} and `state`="Running";
     </select>
 
     <select id="exitedContainers" parameterType="cn.edu.pku.entities.ContainerInfo" resultMap="container">
-        select * from containers_info where valid=1 and `state`="Exited";
+        select * from containers_info where valid=1 and `host`=#{host} and `state`="Exited";
     </select>
 
     <insert id="createContainer" parameterType="cn.edu.pku.entities.ContainerInfo" useGeneratedKeys="true" keyProperty="id">

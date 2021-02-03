@@ -2,13 +2,9 @@ package cn.edu.pku.service.impl;
 
 import cn.edu.pku.entities.ContainerInfo;
 import cn.edu.pku.service.DockerClientService;
-import cn.edu.pku.utiles.TimeUtils;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
-import com.github.dockerjava.api.command.InspectContainerResponse;
-import com.github.dockerjava.api.command.PullImageResultCallback;
 import com.github.dockerjava.api.model.*;
-import com.github.dockerjava.core.command.InspectContainerCmdImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +36,7 @@ public class DockerClientServiceImpl implements DockerClientService {
                 .withShowAll(true)
                 .exec();
         List<ContainerInfo> results = new ArrayList<>();
-        for (Container container: containers) {
+        for (Container container : containers) {
             ContainerInfo result = new ContainerInfo();
 
             result.setContainerId(container.getId());
@@ -60,36 +56,37 @@ public class DockerClientServiceImpl implements DockerClientService {
             result.setState(container.getState());
             result.setStatus(container.getStatus());
             result.setHost(ipAddress);
-            result.setCreateTime(new Date(container.getCreated() * 1000));
+            result.setCreateTime(new Date((container.getCreated() + 3600 * 8) * 1000));
+            ContainerMount containerMount = container.getMounts().get(container.getMounts().size() - 1);
+            String logPath = containerMount.getSource();
+            result.setLogPath(logPath);
 
             results.add(result);
         }
         return results;
     }
 
-    /***
-     * 创建容器
-     * @param containerName
-     * @param imageName
-     * @return
-     */
     @Override
-    public CreateContainerResponse createContainer(String containerName, String imageName, int exposedPort, int bindingPort) throws InterruptedException {
-        dockerClient.pullImageCmd(imageName).withTag("latest").exec(new PullImageResultCallback()).awaitCompletion();
+    public ContainerInfo createContainer(ContainerInfo containerInfo) {
+        //dockerClient.pullImageCmd(imageName).withTag("latest").exec(new PullImageResultCallback()).awaitCompletion();
         //映射端口 8088->80
-        ExposedPort tcp80 = ExposedPort.tcp(exposedPort);
+        ExposedPort tcpPort = ExposedPort.tcp(containerInfo.getPublicPort());
         Ports portBinding = new Ports();
-        portBinding.bind(tcp80, Ports.Binding.bindPort(bindingPort));
+        portBinding.bind(tcpPort, Ports.Binding.bindPort(containerInfo.getPrivatePort()));
 
-        CreateContainerResponse response = dockerClient.createContainerCmd(imageName)
-                .withName(containerName)
+        Volume volume = new Volume(containerInfo.getLogPath());
+        CreateContainerResponse response = dockerClient.createContainerCmd(containerInfo.getImage())
+                .withName(containerInfo.getName())
                 .withHostConfig(HostConfig.newHostConfig().withPortBindings(portBinding))
-                .withExposedPorts(tcp80)
+                .withExposedPorts(tcpPort)
+                .withHostConfig(HostConfig.newHostConfig().withBinds(new Bind(containerInfo.getLogPath(), volume)))
                 .exec();
         startContainer(response.getId());
-        InspectContainerResponse inspect = dockerClient.inspectContainerCmd(response.getId()).exec();
-        inspect.getName();
-        return response;
+
+        containerInfo.setHost(ipAddress);
+        containerInfo.setContainerId(response.getId());
+
+        return containerInfo;
     }
 
     /***

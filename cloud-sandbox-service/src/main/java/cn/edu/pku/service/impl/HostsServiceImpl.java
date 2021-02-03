@@ -1,9 +1,13 @@
 package cn.edu.pku.service.impl;
 
+import cn.edu.pku.dao.DockerContainerMapper;
 import cn.edu.pku.dao.HostsMapper;
+import cn.edu.pku.entities.ContainerInfo;
 import cn.edu.pku.entities.Host;
+import cn.edu.pku.service.DockerContainerService;
 import cn.edu.pku.service.HostsService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -14,12 +18,19 @@ public class HostsServiceImpl implements HostsService {
     @Resource
     private HostsMapper hostsMapper;
 
+    @Resource
+    private DockerContainerService dockerContainerService;
+
+    @Resource
+    private DockerContainerMapper dockerContainerMapper;
+
     @Override
     public List<Host> allHosts() {
         return hostsMapper.allHosts();
     }
 
     @Override
+    @Transactional
     public boolean addHost(Host host) {
         Host host1 = hostsMapper.getHostByIp(host.getIp());
         int res = 0;
@@ -34,7 +45,14 @@ public class HostsServiceImpl implements HostsService {
     }
 
     @Override
+    @Transactional
     public boolean update(Host host) {
+        if (host.getStatus() == 0) {
+            List<ContainerInfo> runningContainers = dockerContainerMapper.runningContainers(host.getIp());
+            for (ContainerInfo containerInfo : runningContainers) {
+                dockerContainerService.stopContainer(containerInfo);
+            }
+        }
         int res = hostsMapper.update(host);
         return res > 0;
     }

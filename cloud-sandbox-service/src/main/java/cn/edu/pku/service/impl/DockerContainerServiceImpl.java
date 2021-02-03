@@ -43,17 +43,35 @@ public class DockerContainerServiceImpl implements DockerContainerService {
 
     @Override
     public List<ContainerInfo> listContainers() {
-        return dockerContainerMapper.listContainers();
+        List<Host> hosts = hostsService.activeHost();
+        List<ContainerInfo> results = new ArrayList<>();
+        for (Host host: hosts) {
+            List<ContainerInfo> result = dockerContainerMapper.listContainers(host.getIp());
+            results.addAll(result);
+        }
+        return results;
     }
 
     @Override
     public List<ContainerInfo> runningContainers() {
-        return dockerContainerMapper.runningContainers();
+        List<Host> hosts = hostsService.activeHost();
+        List<ContainerInfo> results = new ArrayList<>();
+        for (Host host: hosts) {
+            List<ContainerInfo> result = dockerContainerMapper.runningContainers(host.getIp());
+            results.addAll(result);
+        }
+        return results;
     }
 
     @Override
     public List<ContainerInfo> exitedContainers() {
-        return dockerContainerMapper.exitedContainers();
+        List<Host> hosts = hostsService.activeHost();
+        List<ContainerInfo> results = new ArrayList<>();
+        for (Host host: hosts) {
+            List<ContainerInfo> result = dockerContainerMapper.exitedContainers(host.getIp());
+            results.addAll(result);
+        }
+        return results;
     }
 
     @Override

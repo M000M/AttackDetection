@@ -3,10 +3,10 @@ package cn.edu.pku.entities;
 import lombok.*;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Host {
 
     private long id;
