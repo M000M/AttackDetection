@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e8f81c89-02dc-46d7-8c46-4912c39b4728" name="Default Changelist" comment="" />
+    <list default="true" id="e8f81c89-02dc-46d7-8c46-4912c39b4728" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/cloud-sandbox-service/src/main/java/cn/edu/pku/service/ElasticSearchService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cloud-sandbox-service/src/main/java/cn/edu/pku/service/impl/ElasticSearchServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cloud-sandbox-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/cloud-sandbox-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cloud-sandbox-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/cloud-sandbox-service/src/main/resources/application.yml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,8 +19,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -100,6 +105,17 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -259,7 +275,8 @@
       <workItem from="1612247670217" duration="1918000" />
       <workItem from="1612263913023" duration="2043000" />
       <workItem from="1612266840516" duration="1158000" />
-      <workItem from="1612317504590" duration="3153000" />
+      <workItem from="1612317504590" duration="6143000" />
+      <workItem from="1612794780413" duration="1514000" />
     </task>
     <servers />
   </component>
