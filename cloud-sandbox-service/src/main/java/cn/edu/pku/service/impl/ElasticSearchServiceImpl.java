@@ -10,11 +10,10 @@ import javax.annotation.Resource;
 @Service
 public class ElasticSearchServiceImpl implements ElasticSearchService {
 
-    @Resource
-    private ElasticsearchClient elasticsearchClient;
-
-    public void getAllLogs () {
-        Index index = new Index.Builder();
-        elasticsearchClient.execute();
-    }
+//    @Resource
+//    private ElasticsearchClient elasticsearchClient;
+//
+//    public void getAllLogs () {
+//        System.out.println("OK");
+//    }
 }
