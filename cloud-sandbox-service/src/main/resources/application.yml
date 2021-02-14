@@ -8,9 +8,10 @@ spring:
     url: jdbc:mysql://localhost:3306/attack_detection?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: s002611
-  elasticsearch:
-    rest:
-      uris: ["http://127.0.0.1:9200"]
+#  elasticsearch:
+#    rest:
+#      uris: ["http://127.0.0.1:9200"]
+
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
@@ -28,12 +29,6 @@ ribbon:
   ReadTimeout: 5000
   # 指的是建立连接后从服务器读取到可用资源所用的时间
   ConnectTimeout: 5000
-
-
-logging:
-  level:
-    # Feign日志以什么级别监控哪个端口
-    com.atguigu.springcloud.service.PaymentFeignService: debug
 
 host:
   serviceAddress: "http://127.0.0.1:"

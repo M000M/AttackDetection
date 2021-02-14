@@ -1,5 +1,7 @@
 /home/uokaa/Desktop/AttackDetection/api-commons/src/main/java/cn/edu/pku/utils/JsonUtils.java
 /home/uokaa/Desktop/AttackDetection/api-commons/src/main/java/cn/edu/pku/entities/ImageInfo.java
+/home/uokaa/Desktop/AttackDetection/api-commons/src/main/java/cn/edu/pku/entities/NginxLogInfo.java
 /home/uokaa/Desktop/AttackDetection/api-commons/src/main/java/cn/edu/pku/entities/Host.java
+/home/uokaa/Desktop/AttackDetection/api-commons/src/main/java/cn/edu/pku/entities/LogInfo.java
 /home/uokaa/Desktop/AttackDetection/api-commons/src/main/java/cn/edu/pku/entities/ContainerInfo.java
 /home/uokaa/Desktop/AttackDetection/api-commons/src/main/java/cn/edu/pku/entities/CommonResult.java
