@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8f81c89-02dc-46d7-8c46-4912c39b4728" name="Default Changelist" comment="">
-<<<<<<< HEAD
       <change afterPath="$PROJECT_DIR$/api-commons/src/main/java/cn/edu/pku/entities/LogInfo.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/api-commons/src/main/java/cn/edu/pku/entities/NginxLogInfo.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/cloud-sandbox-service/src/main/java/cn/edu/pku/config/ElasticSearchClientConfig.java" afterDir="false" />
@@ -22,14 +21,12 @@
       <change beforePath="$PROJECT_DIR$/cloud-sandbox-service/src/test/java/cn/edu/pku/CloudSandboxServiceMainTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/cloud-sandbox-service/src/test/java/cn/edu/pku/CloudSandboxServiceMainTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cloud-sandbox-service/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/cloud-sandbox-service/target/classes/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cloud-sandbox-service/target/test-classes/cn/edu/pku/CloudSandboxServiceMainTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/cloud-sandbox-service/target/test-classes/cn/edu/pku/CloudSandboxServiceMainTest.class" afterDir="false" />
-=======
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cloud-sandbox-service/src/main/java/cn/edu/pku/service/impl/ElasticSearchServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/cloud-sandbox-service/src/main/java/cn/edu/pku/service/impl/ElasticSearchServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-service80/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-service80/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-service80/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-service80/target/classes/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-service81/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-service81/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-service81/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-service81/target/classes/application.yml" afterDir="false" />
->>>>>>> e9d85c2c5d20f5a2cf716b587f2a2c6492094520
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,15 +127,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>

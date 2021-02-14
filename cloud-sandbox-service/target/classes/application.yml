@@ -8,16 +8,10 @@ spring:
     url: jdbc:mysql://localhost:3306/attack_detection?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: s002611
-<<<<<<< HEAD
 #  elasticsearch:
 #    rest:
 #      uris: ["http://127.0.0.1:9200"]
 
-=======
-  elasticsearch:
-    rest:
-      uris: ["http://127.0.0.1:9200"]
->>>>>>> e9d85c2c5d20f5a2cf716b587f2a2c6492094520
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
