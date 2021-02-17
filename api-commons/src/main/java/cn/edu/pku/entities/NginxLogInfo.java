@@ -17,7 +17,7 @@ public class NginxLogInfo implements Serializable {
 
     private String user;
 
-    private String logTimestamp;
+    private String accessTime;
 
     private String httpHost;
 

@@ -33,13 +33,13 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
         searchRequest.indices("logstash-nginx-access");
         searchRequest.types("_doc");
 
-        MatchQueryBuilder matchQuery = QueryBuilders.matchQuery("uri", "/addUser");
+        //MatchQueryBuilder matchQuery = QueryBuilders.matchQuery("uri", "/addUser");
 
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 
-        QueryBuilder totalFilter = QueryBuilders.boolQuery()
-                .filter(matchQuery);
-        int size = 100;
+        QueryBuilder totalFilter = QueryBuilders.boolQuery();
+                //.filter(matchQuery);
+        int size = 1000;
         int from = 0;
         long total = 0;
 

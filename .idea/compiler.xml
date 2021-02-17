@@ -13,14 +13,15 @@
         <module name="eureka-server7001" />
         <module name="docker-service80" />
         <module name="eureka-server7002" />
+        <module name="DockerKubernetestDemo" />
         <module name="docker-service81" />
         <module name="DockerKubernetesDemo" />
-        <module name="system-management" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="consul-server7002" target="11" />
       <module name="consul-server7003" target="11" />
+      <module name="system-management" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

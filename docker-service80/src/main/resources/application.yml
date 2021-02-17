@@ -4,12 +4,6 @@ server:
 spring:
   application:
     name: cloud-docker-service
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/attack_detection?useUnicode=true&characterEncoding=utf-8&useSSL=false
-    username: root
-    password: s002611
 
 eureka:
   client:
@@ -33,16 +27,11 @@ eureka:
     lease-expiration-duration-in-seconds: 2
 
 
-mybatis:
-  mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: cn.edu.pku.entities
-
-
 docker:
-  # host: "tcp://192.168.1.80:2375"
-  # ipAddress: "192.168.1.80"
-  host: "tcp://81.70.240.72:2375"
-  ipAddress: "81.70.240.72"
+  host: "tcp://192.168.1.80:2375"
+  ipAddress: "192.168.1.80"
+  # host: "tcp://81.70.240.72:2375"
+  # ipAddress: "81.70.240.72"
   #host: "tcp://127.0.0.1:2375"
   # host: "tcp://10.129.16.171:2375"
   # ipAddress: "10.129.16.171"
