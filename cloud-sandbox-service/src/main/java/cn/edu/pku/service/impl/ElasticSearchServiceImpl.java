@@ -39,7 +39,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 
         QueryBuilder totalFilter = QueryBuilders.boolQuery();
                 //.filter(matchQuery);
-        int size = 1000;
+        int size = 2000;
         int from = 0;
         long total = 0;
 
