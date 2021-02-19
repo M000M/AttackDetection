@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
@@ -102,6 +103,7 @@ public class DockerContainerServiceImpl implements DockerContainerService {
         containerInfo.setState(RUNNING); // 标记容器状态为Running
         int res1 = dockerContainerMapper.updateContainer(containerInfo);
         if (res == null || !res || res1 == 0) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return false;
         } else {
             return true;
@@ -118,6 +120,7 @@ public class DockerContainerServiceImpl implements DockerContainerService {
         containerInfo.setState(EXCITED); // 标记容器状态为Exited
         int res1 = dockerContainerMapper.updateContainer(containerInfo);
         if (res == null || !res || res1 == 0) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return false;
         } else {
             return true;
@@ -140,6 +143,7 @@ public class DockerContainerServiceImpl implements DockerContainerService {
         containerInfo.setValid(INVALID); //标记容器被删除
         int res2 = dockerContainerMapper.updateContainer(containerInfo);
         if (res1 == null || !res1 || res2 == 0) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return false;
         } else {
             return true;
