@@ -5,6 +5,7 @@ import cn.edu.pku.service.ElasticSearchService;
 import cn.edu.pku.utils.JsonUtils;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.MatchQueryBuilder;
@@ -12,10 +13,15 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.sort.FieldSortBuilder;
+import org.elasticsearch.search.sort.SortBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -35,6 +41,9 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 
         //MatchQueryBuilder matchQuery = QueryBuilders.matchQuery("uri", "/addUser");
 
+        SortBuilder sortBuilder = new FieldSortBuilder("accessTime")
+                .order(SortOrder.DESC);
+
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 
         QueryBuilder totalFilter = QueryBuilders.boolQuery();
@@ -46,10 +55,12 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
         do {
             try {
                 sourceBuilder.query(totalFilter).from(from).size(size);
+                //sourceBuilder.sort(sortBuilder).query(totalFilter).from(from).size(size);
                 sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
                 searchRequest.source(sourceBuilder);
 
-                SearchResponse response = restHighLevelClient.search(searchRequest);
+//                SearchResponse response = restHighLevelClient.search(searchRequest);
+                SearchResponse response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
 
                 SearchHit[] hits = response.getHits().getHits();
                 for (SearchHit hit: hits) {
@@ -65,7 +76,15 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
                 e.printStackTrace();
             }
         } while (from < total);
-
+        Collections.sort(res, new Comparator<NginxLogInfo>() {
+            @Override
+            public int compare(NginxLogInfo o1, NginxLogInfo o2) {
+                int temp = o1.getAccessTime().compareTo(o2.getAccessTime());
+                if (temp > 0) return -1;
+                else if (temp == 0) return 0;
+                else return 1;
+            }
+        });
         return res;
     }
 }
