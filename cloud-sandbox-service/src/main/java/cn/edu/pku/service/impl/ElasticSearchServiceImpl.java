@@ -48,7 +48,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 
         QueryBuilder totalFilter = QueryBuilders.boolQuery();
                 //.filter(matchQuery);
-        int size = 2000;
+        int size = 100;
         int from = 0;
         long total = 0;
 
@@ -69,22 +69,22 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
                     res.add(nginxLogInfo);
                 }
 
-                if (from > 10000) {
+                if (from > 100) {
                     break;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } while (from < total);
-        Collections.sort(res, new Comparator<NginxLogInfo>() {
-            @Override
-            public int compare(NginxLogInfo o1, NginxLogInfo o2) {
-                int temp = o1.getAccessTime().compareTo(o2.getAccessTime());
-                if (temp > 0) return -1;
-                else if (temp == 0) return 0;
-                else return 1;
-            }
-        });
+//        Collections.sort(res, new Comparator<NginxLogInfo>() {
+//            @Override
+//            public int compare(NginxLogInfo o1, NginxLogInfo o2) {
+//                int temp = o1.getAccessTime().compareTo(o2.getAccessTime());
+//                if (temp > 0) return -1;
+//                else if (temp == 0) return 0;
+//                else return 1;
+//            }
+//        });
         return res;
     }
 }
