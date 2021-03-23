@@ -1,15 +1,21 @@
 package cn.edu.pku.entities;
 
+import lombok.*;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.io.Serializable;
 
-@Document(indexName = "detection-log", type = "_doc")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+@ToString
 public class LogInfo implements Serializable {
 
-    private String path;
+    private String ip;
 
-    private String host;
+    private String cmd;
 
-    private String message;
+    private String timestamp;
 }
