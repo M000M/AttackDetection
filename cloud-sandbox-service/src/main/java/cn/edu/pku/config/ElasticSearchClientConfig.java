@@ -24,12 +24,12 @@ public class ElasticSearchClientConfig {
 //    }
 
     @Bean
-    @Qualifier("highLevelClient")
+    @Qualifier("restHighLevelClient")
     public RestHighLevelClient restHighLevelClient() {
         // RestHighLevelClient highLevelClient = new RestHighLevelClient(
         // RestClient.builder(new HttpHost("127.0.0.1", 9200, "http")));
 
-        RestHighLevelClient highLevelClient = new RestHighLevelClient(
+        RestHighLevelClient restHighLevelClient = new RestHighLevelClient(
                 RestClient.builder(new HttpHost("81.70.240.72", 9200, "http"))
                         .setRequestConfigCallback(new RestClientBuilder.RequestConfigCallback() {
                             // 该方法接收一个RequestConfig.Builder对象，对该对象进行修改后然后返回。
@@ -43,6 +43,6 @@ public class ElasticSearchClientConfig {
                         //.setMaxRetryTimeoutMillis(300 * 10000)
         );
 
-        return highLevelClient;
+        return restHighLevelClient;
     }
 }
