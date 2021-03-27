@@ -23,6 +23,7 @@ import javax.annotation.Resource;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -37,7 +38,7 @@ public class ESTest {
     public void test() {
         SearchRequest searchRequest = new SearchRequest();
 
-        searchRequest.indices("attack-detection-log");
+        searchRequest.indices("filebeat-log");
 
         searchRequest.types("_doc");
 
@@ -46,7 +47,7 @@ public class ESTest {
         QueryBuilder totalFilter = QueryBuilders.boolQuery();
 
         int size = 100;
-        int from = 0;
+        int from = 100000;
         try {
             sourceBuilder.query(totalFilter).from(from).size(size);
             sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
@@ -118,6 +119,36 @@ public class ESTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    @Test
+    public void test2() {
+        String time = "2021-03-26T11:16:42+0000";
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date date = sdf1.parse(time);
+            date.setTime(date.getTime() + 28800000);
+            String str = sdf2.format(date);
+            System.out.println(str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

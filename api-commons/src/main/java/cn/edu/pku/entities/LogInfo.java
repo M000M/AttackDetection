@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -13,9 +14,7 @@ import java.io.Serializable;
 @ToString
 public class LogInfo implements Serializable {
 
-    private String ip;
+    private Date time;
 
-    private String cmd;
-
-    private String timestamp;
+    private String log;
 }
