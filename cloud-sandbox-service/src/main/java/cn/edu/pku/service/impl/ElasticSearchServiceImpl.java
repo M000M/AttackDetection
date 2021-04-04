@@ -22,6 +22,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -34,6 +35,9 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 
     @Resource
     private RestHighLevelClient restHighLevelClient;
+
+    @Resource
+    private RabbitTemplate rabbitTemplate;
 
     @Override
     public List<NginxLogInfo> getAll() {
@@ -63,7 +67,6 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
                 sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
                 searchRequest.source(sourceBuilder);
 
-//                SearchResponse response = restHighLevelClient.search(searchRequest);
                 SearchResponse response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
 
                 SearchHit[] hits = response.getHits().getHits();
@@ -80,15 +83,6 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
                 e.printStackTrace();
             }
         } while (from < total);
-//        Collections.sort(res, new Comparator<NginxLogInfo>() {
-//            @Override
-//            public int compare(NginxLogInfo o1, NginxLogInfo o2) {
-//                int temp = o1.getAccessTime().compareTo(o2.getAccessTime());
-//                if (temp > 0) return -1;
-//                else if (temp == 0) return 0;
-//                else return 1;
-//            }
-//        });
         return res;
     }
 
@@ -134,12 +128,12 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
             for (int i = hits.length - 1; i >= 0; i--) {
                 SearchHit hit = hits[i];
                 String log = hit.getSourceAsString();
-                System.out.println(log);
+                //System.out.println(log);
                 JSONObject obj = JSON.parseObject(log);
                 String message = null;
                 JSONObject obj1 = null;
                 message = obj.getString("message");
-                System.out.println(message);
+                //System.out.println(message);
                 if (message.startsWith("{\"log\"")) {
                     obj1 = JSON.parseObject(message);
                     String time = null;
@@ -151,6 +145,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
                     obj1.put("log", message);
                     obj1.put("time", TimeUtils.formatTime(new Date()));
                 }
+                rabbitTemplate.convertAndSend("attack logs", message); //发送到消息队列
                 result.add(obj1);
             }
         } catch (Exception e) {
