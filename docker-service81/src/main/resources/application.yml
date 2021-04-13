@@ -27,11 +27,14 @@ eureka:
     lease-expiration-duration-in-seconds: 2
 
 
-mybatis:
-  mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: cn.edu.pku.entities
-
-
 docker:
-  host: "tcp://192.168.1.81:2375"
-  ipAddress: "192.168.1.81"
+  # host: "tcp://192.168.1.80:2375"
+  # ipAddress: "192.168.1.80"
+  # host: "tcp://81.70.240.72:2375"
+  # ipAddress: "81.70.240.72"
+  #  host: "tcp://127.0.0.1:2375"
+  #  ipAddress: "127.0.0.1"
+  #host: "tcp://49.232.78.91:2375"
+  #ipAddress: "49.232.78.91"
+  host: "tcp://192.168.1.10:2375"
+  ipAddress: "192.168.1.10"
