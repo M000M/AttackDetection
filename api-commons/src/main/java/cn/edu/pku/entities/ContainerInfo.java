@@ -29,10 +29,6 @@ public class ContainerInfo {
 
     private String state;       // 容器目前所处的状态: running=>正在运行
 
-    private String status;      // 容器运行了多久
-
-    private String logPath;     // 日志目录
-
     private int privatePort;    // 容器内部端口
 
     private int publicPort;     // 容器外部映射端口

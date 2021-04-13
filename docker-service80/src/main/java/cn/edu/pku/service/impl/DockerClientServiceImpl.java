@@ -54,12 +54,10 @@ public class DockerClientServiceImpl implements DockerClientService {
             result.setPrivatePort(privatePort);
             result.setPublicPort(publicPort);
             result.setState(container.getState());
-            result.setStatus(container.getStatus());
             result.setHost(ipAddress);
             result.setCreateTime(new Date((container.getCreated() + 3600 * 8) * 1000));
             ContainerMount containerMount = container.getMounts().get(container.getMounts().size() - 1);
             String logPath = containerMount.getSource();
-            result.setLogPath(logPath);
 
             results.add(result);
         }
@@ -69,28 +67,28 @@ public class DockerClientServiceImpl implements DockerClientService {
     @Override
     public ContainerInfo createContainer(ContainerInfo containerInfo) {
         //dockerClient.pullImageCmd(imageName).withTag("latest").exec(new PullImageResultCallback()).awaitCompletion();
-        Volume volume1 = null;
-        Volume volume2 = null;
-        if (containerInfo.getImage().equals("nginx")) {
-            volume1 = new Volume("/var/log/nginx"); // 容器数据卷映射，日志
-            volume2 = new Volume("/etc/nginx/nginx.conf"); // 配置文件
-        }
+//        Volume volume1 = null;
+//        Volume volume2 = null;
+//        if (containerInfo.getImage().equals("nginx")) {
+//            volume1 = new Volume("/var/log/nginx"); // 容器数据卷映射，日志
+//            volume2 = new Volume("/etc/nginx/nginx.conf"); // 配置文件
+//        }
 
         PortBinding portBinding = PortBinding.parse(containerInfo.getPublicPort() + ":" + containerInfo.getPrivatePort());
         HostConfig hostConfig = HostConfig.newHostConfig()
                 .withPortBindings(portBinding);
-        List<Bind> binds = new ArrayList<>();
-        if (volume1 != null) {
-            binds.add(new Bind(containerInfo.getLogPath(), volume1));
-            //hostConfig.withBinds(new Bind(containerInfo.getLogPath(), volume1));
-        }
-        if (volume2 != null) {
-            binds.add(new Bind("/opt/container_config/nginx/nginx.conf", volume2));
-            //hostConfig.withBinds(new Bind("/opt/container_config/nginx/nginx.conf", volume2));
-        }
-        hostConfig.withBinds(binds);
-        System.out.println("====================================");
-        System.out.println("log_path:" + containerInfo.getLogPath());
+//        List<Bind> binds = new ArrayList<>();
+//        if (volume1 != null) {
+//            binds.add(new Bind(containerInfo.getLogPath(), volume1));
+//            //hostConfig.withBinds(new Bind(containerInfo.getLogPath(), volume1));
+//        }
+//        if (volume2 != null) {
+//            binds.add(new Bind("/opt/container_config/nginx/nginx.conf", volume2));
+//            //hostConfig.withBinds(new Bind("/opt/container_config/nginx/nginx.conf", volume2));
+//        }
+//        hostConfig.withBinds(binds);
+//        System.out.println("====================================");
+//        System.out.println("log_path:" + containerInfo.getLogPath());
         CreateContainerResponse response = dockerClient.createContainerCmd(containerInfo.getImage())
                 .withName(containerInfo.getName())
                 .withHostConfig(hostConfig)

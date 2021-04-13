@@ -27,8 +27,6 @@ CREATE TABLE `containers_info` (
   `container_id` varchar(200) CHARACTER SET latin1 NOT NULL COMMENT 'Container ID',
   `image` varchar(200) CHARACTER SET latin1 NOT NULL COMMENT 'Image of Container',
   `state` varchar(20) CHARACTER SET latin1 NOT NULL COMMENT 'Current State of Container',
-  `status` varchar(100) CHARACTER SET latin1 NOT NULL COMMENT 'Description of Container State',
-  `log_path` varchar(255) CHARACTER SET latin1 NOT NULL COMMENT 'Volume Path of Container',
   `private_port` int(11) NOT NULL COMMENT 'Container Private Port',
   `public_port` int(11) NOT NULL COMMENT 'Exposed Port',
   `host` varchar(50) CHARACTER SET latin1 NOT NULL COMMENT 'Where is the Container',

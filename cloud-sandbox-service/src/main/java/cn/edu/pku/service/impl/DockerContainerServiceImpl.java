@@ -78,7 +78,6 @@ public class DockerContainerServiceImpl implements DockerContainerService {
     @Override
     @Transactional
     public boolean createContainer(ContainerInfo containerInfo) {
-        containerInfo.setLogPath("/opt/log/" + containerInfo.getName());
         // 调用微服务在宿主机上创建容器
         ContainerInfo result = dockerFeignService.createContainer(containerInfo);
         if (result == null || result.getContainerId() == null) {

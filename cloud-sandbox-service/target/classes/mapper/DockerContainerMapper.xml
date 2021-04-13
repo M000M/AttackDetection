@@ -9,8 +9,6 @@
         <result property="containerId" column="container_id" jdbcType="VARCHAR"/>
         <result property="image" column="image" jdbcType="VARCHAR"/>
         <result property="state" column="state" jdbcType="VARCHAR"/>
-        <result property="status" column="status" jdbcType="VARCHAR"/>
-        <result property="logPath" column="log_path" jdbcType="VARCHAR"/>
         <result property="privatePort" column="private_port" jdbcType="INTEGER"/>
         <result property="publicPort" column="public_port" jdbcType="INTEGER"/>
         <result property="host" column="host" jdbcType="VARCHAR"/>
@@ -31,7 +29,7 @@
     </select>
 
     <insert id="createContainer" parameterType="cn.edu.pku.entities.ContainerInfo" useGeneratedKeys="true" keyProperty="id">
-        insert into containers_info values(#{id}, #{name}, #{containerId}, #{image}, #{state}, #{status}, #{logPath},
+        insert into containers_info values(#{id}, #{name}, #{containerId}, #{image}, #{state},
                                            #{privatePort}, #{publicPort}, #{host}, #{createTime}, #{valid});
     </insert>
 
