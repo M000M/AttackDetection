@@ -3,15 +3,13 @@ package cn.edu.pku.controller;
 import cn.edu.pku.entities.CommonResult;
 import cn.edu.pku.entities.RegularExpression;
 import cn.edu.pku.service.ExpressionService;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/expression")
 public class ExpressionController {
 

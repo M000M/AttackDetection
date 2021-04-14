@@ -1,5 +1,5 @@
 server:
-  port: 6000
+  port: 7000
 
 spring:
   application:
@@ -12,8 +12,8 @@ spring:
     password: s002611
 
   rabbitmq:
-    #host: 172.16.17.10
-    host: 192.168.1.10
+    host: 172.16.17.10
+    #host: 192.168.1.10
     port: 5672
     username: ems
     password: 123
@@ -26,3 +26,7 @@ spring:
         service-name: ${spring.application.name}
         heartbeat:
           enabled: true
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: cn.edu.pku.entities
