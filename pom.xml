@@ -18,6 +18,7 @@
         <module>cloud-sandbox-service</module>
         <module>logs-parse-service</module>
         <module>location-statistics-service</module>
+        <module>detection-result-service</module>
     </modules>
 
     <!--统一管理jar包版本-->
