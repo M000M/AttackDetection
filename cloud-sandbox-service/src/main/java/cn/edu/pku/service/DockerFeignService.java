@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Component
-@FeignClient(value = "CLOUD-DOCKER-SERVICE")
+@FeignClient(value = "cloud-docker-service")
 public interface DockerFeignService {
 
     @RequestMapping(value = "/container/images", method = RequestMethod.GET)

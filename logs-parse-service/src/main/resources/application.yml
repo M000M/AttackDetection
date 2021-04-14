@@ -1,0 +1,22 @@
+server:
+  port: 6000
+
+spring:
+  application:
+    name: logs-parse-service
+
+  rabbitmq:
+    #host: 172.16.17.10
+    host: 192.168.1.10
+    port: 5672
+    username: ems
+    password: 123
+    virtual-host: /ems
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        service-name: ${spring.application.name}
+        heartbeat:
+          enabled: true
