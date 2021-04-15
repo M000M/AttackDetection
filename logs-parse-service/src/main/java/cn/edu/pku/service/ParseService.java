@@ -1,6 +1,5 @@
 package cn.edu.pku.service;
 
-import cn.edu.pku.entities.DetectionResult;
 import cn.edu.pku.entities.RegularExpression;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,6 +19,9 @@ public class ParseService {
 
     @Resource
     private ExpressionService expressionService;
+
+    @Resource
+    private ResultService resultService;
 
     private List<RegularExpression> expressions = null;
 
@@ -63,12 +64,9 @@ public class ParseService {
                     obj.put(field, pattern);
                 }
             }
-//            try {
-//                TimeUnit.SECONDS.sleep(1);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-            System.out.println(obj);
+            String str = obj.toString();
+            System.out.println(str);
+            resultService.addResult(str);
             System.out.println("-----------------------------------------");
         }
     }
