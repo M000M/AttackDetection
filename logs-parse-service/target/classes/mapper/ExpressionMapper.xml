@@ -8,11 +8,11 @@
     </select>
 
     <insert id="addExpression" parameterType="cn.edu.pku.entities.RegularExpression">
-        insert into regular_expression(`expression`, `type`, `desc`) values(#{expression}, #{type}, #{desc});
+        insert into regular_expression(`expression`, `type`, `desc`, `field`) values(#{expression}, #{type}, #{desc}, #{field});
     </insert>
 
     <update id="updateExpression" parameterType="cn.edu.pku.entities.RegularExpression">
-        update regular_expression set `expression` = #{expression}, `type` = #{type}, `desc` = #{desc},
+        update regular_expression set `expression` = #{expression}, `type` = #{type}, `desc` = #{desc}, `field` = #{field},
         `valid` = #{valid} where `id` = #{id};
     </update>
 </mapper>

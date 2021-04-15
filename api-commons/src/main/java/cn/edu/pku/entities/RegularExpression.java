@@ -18,5 +18,7 @@ public class RegularExpression {
 
     private String desc;
 
+    private String field;
+
     private int valid;
 }

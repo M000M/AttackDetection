@@ -38,53 +38,6 @@ public class ElasticsearchServiceImpl implements ElasticsearchService {
     private RabbitTemplate rabbitTemplate;
 
     @Override
-    public List<NginxLogInfo> getAll() {
-        List<NginxLogInfo> res = new ArrayList<>();
-
-        SearchRequest searchRequest = new SearchRequest();
-        searchRequest.indices("logstash-nginx-access");
-        searchRequest.types("_doc");
-
-        //MatchQueryBuilder matchQuery = QueryBuilders.matchQuery("uri", "/addUser");
-
-        SortBuilder sortBuilder = new FieldSortBuilder("accessTime")
-                .order(SortOrder.DESC);
-
-        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-
-        QueryBuilder totalFilter = QueryBuilders.boolQuery();
-                //.filter(matchQuery);
-        int size = 5000;
-        int from = 0;
-        long total = 0;
-
-        do {
-            try {
-                sourceBuilder.query(totalFilter).from(from).size(size);
-                //sourceBuilder.sort(sortBuilder).query(totalFilter).from(from).size(size);
-                sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
-                searchRequest.source(sourceBuilder);
-
-                SearchResponse response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-
-                SearchHit[] hits = response.getHits().getHits();
-                for (SearchHit hit: hits) {
-                    //System.out.println(hit.getSourceAsString());
-                    NginxLogInfo nginxLogInfo = (NginxLogInfo) JsonUtils.stringToObject(hit.getSourceAsString(), NginxLogInfo.class);
-                    res.add(nginxLogInfo);
-                }
-
-                if (from > 100) {
-                    break;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } while (from < total);
-        return res;
-    }
-
-    @Override
     public long getTotal() {
         CountRequest countRequest = new CountRequest();
         countRequest.indices("filebeat-log");
@@ -143,7 +96,56 @@ public class ElasticsearchServiceImpl implements ElasticsearchService {
                     obj1.put("log", message);
                     obj1.put("time", TimeUtils.formatTime(new Date()));
                 }
-                rabbitTemplate.convertAndSend("attack logs", message); //发送到消息队列
+                result.add(obj1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
+    public List<Object> getRealTimeLog(int start, int size) {
+        List<Object> result = new ArrayList<>();
+
+        SearchRequest searchRequest = new SearchRequest();
+
+        searchRequest.indices("filebeat-log");
+
+        searchRequest.types("_doc");
+
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+
+        QueryBuilder totalFilter = QueryBuilders.boolQuery();
+
+        try {
+            sourceBuilder.query(totalFilter).from(start).size(size);
+            sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
+            searchRequest.source(sourceBuilder);
+            SearchResponse response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+
+            SearchHit[] hits = response.getHits().getHits();
+            for (int i = hits.length - 1; i >= 0; i--) {
+                SearchHit hit = hits[i];
+                String log = hit.getSourceAsString();
+                //System.out.println(log);
+                JSONObject obj = JSON.parseObject(log);
+                String message = null;
+                JSONObject obj1 = null;
+                message = obj.getString("message");
+                //System.out.println(message);
+                if (message.startsWith("{\"log\"")) {
+                    obj1 = JSON.parseObject(message);
+                    String time = null;
+                    if ((time = obj1.getString("time")) != null) {
+                        obj1.replace("time", parseTZTime(time));
+                    }
+                } else {
+                    obj1 = new JSONObject();
+                    obj1.put("log", message);
+                    obj1.put("time", TimeUtils.formatTime(new Date()));
+                }
+                rabbitTemplate.convertAndSend("attack logs", obj1.getString("log")); //发送到消息队列
                 result.add(obj1);
             }
         } catch (Exception e) {

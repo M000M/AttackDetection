@@ -21,5 +21,9 @@ public class DetectionResult {
 
     private String status;     // 入侵者试图入侵的结果，暴力破解的结果
 
+    private String attackType; // 最有可能的入侵类型
+
     private String conTime;    // 连接持续的时间
+
+    private String other;      // 其他信息
 }

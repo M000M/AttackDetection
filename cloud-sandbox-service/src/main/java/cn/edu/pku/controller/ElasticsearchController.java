@@ -18,21 +18,6 @@ public class ElasticsearchController {
     @Resource
     private ElasticsearchService searchService;
 
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    public CommonResult<List<NginxLogInfo>> getAll() {
-        CommonResult<List<NginxLogInfo>> result = new CommonResult<>();
-        try {
-            List<NginxLogInfo> res = searchService.getAll();
-            result.setData(res);
-            result.setMsg("查询所有日志成功");
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setStatus(false);
-            result.setMsg("查询日志异常");
-        }
-        return result;
-    }
-
     /***
      * 获取日志的数量
      * @return
@@ -63,6 +48,21 @@ public class ElasticsearchController {
             e.printStackTrace();
             result.setStatus(false);
             result.setMsg("根据页面获取日志异常");
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/getRealTimeLog", method = RequestMethod.GET)
+    public CommonResult<List<Object>> getRealTimeLog(@RequestParam("start") int start, @RequestParam("size") int size) {
+        CommonResult<List<Object>> result = new CommonResult<>();
+        try {
+            List<Object> res = searchService.getRealTimeLog(start, size);
+            result.setData(res);
+            result.setMsg("获取实时日志成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setStatus(false);
+            result.setMsg("获取实时日志异常");
         }
         return result;
     }
