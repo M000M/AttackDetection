@@ -3,7 +3,9 @@ package cn.edu.pku.service;
 import cn.edu.pku.entities.RegularExpression;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.amqp.rabbit.annotation.*;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -33,13 +35,22 @@ public class ParseService {
 //        System.out.println(message);
 //    }
 
-    @RabbitListener(bindings = {
-            @QueueBinding(
-                    value = @Queue,
-                    exchange = @Exchange(value = "attack logs", type = "fanout")
-            )
-    })
-    public void parseLogs(String message) throws JSONException {
+    @RabbitListener(queuesToDeclare = @Queue("attack logs"))
+    public void parseLogs1(String message) throws JSONException {
+        helper(message);
+    }
+
+    @RabbitListener(queuesToDeclare = @Queue("attack logs"))
+    public void parseLogs2(String message) throws JSONException {
+        helper(message);
+    }
+
+    @RabbitListener(queuesToDeclare = @Queue("attack logs"))
+    public void parseLogs3(String message) throws JSONException {
+        helper(message);
+    }
+
+    private void helper(String message) throws JSONException {
         if (expressions == null) {
             expressions = expressionService.getAllExpression();
         }
@@ -71,18 +82,9 @@ public class ParseService {
         if (obj.length() < 3) {
             return;
         }
-        if (obj.getString("ip") == null) {
-            return;
-        }
-        if (obj.has("command")) {
-            String command = obj.getString("command");
-            obj.remove("command");
-            command = command.replace("Command found: ", "");
-            obj.put("command", command);
-        }
         String str = obj.toString();
-        resultService.addResult(str);
         System.out.println(str);
+        resultService.addResult(str);
         System.out.println("-----------------------------------------");
     }
 }

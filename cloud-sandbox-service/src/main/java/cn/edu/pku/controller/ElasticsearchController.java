@@ -51,19 +51,4 @@ public class ElasticsearchController {
         }
         return result;
     }
-
-    @RequestMapping(value = "/getRealTimeLog", method = RequestMethod.GET)
-    public CommonResult<List<Object>> getRealTimeLog(@RequestParam("start") int start, @RequestParam("size") int size) {
-        CommonResult<List<Object>> result = new CommonResult<>();
-        try {
-            List<Object> res = searchService.getRealTimeLog(start, size);
-            result.setData(res);
-            result.setMsg("获取实时日志成功");
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setStatus(false);
-            result.setMsg("获取实时日志异常");
-        }
-        return result;
-    }
 }

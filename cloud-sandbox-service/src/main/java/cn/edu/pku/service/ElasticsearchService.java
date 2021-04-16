@@ -10,6 +10,4 @@ public interface ElasticsearchService {
     long getTotal();
 
     List<Object> getLogByPage(int start, int size);
-
-    List<Object> getRealTimeLog(int start, int size);
 }
