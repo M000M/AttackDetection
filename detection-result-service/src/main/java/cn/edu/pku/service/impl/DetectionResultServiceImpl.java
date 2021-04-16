@@ -23,9 +23,9 @@ public class DetectionResultServiceImpl implements DetectionResultService {
     }
 
     @Override
-    public List<Object> getAll() {
+    public List<Object> getResultByPage(int start, int size) {
         List<Object> result = new ArrayList<>();
-        List<DetectionResult> list = detectionResultMapper.getAll();
+        List<DetectionResult> list = detectionResultMapper.getResultByPage(start, size);
         for (DetectionResult detectionResult: list) {
             String str = detectionResult.getStr();
             Object obj = JSON.parse(str);

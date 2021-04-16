@@ -7,7 +7,7 @@
         select count(0) from detection_result;
     </select>
 
-    <select id="getAll" resultType="cn.edu.pku.entities.DetectionResult">
-        select * from detection_result;
+    <select id="getResultByPage" resultType="cn.edu.pku.entities.DetectionResult">
+        select * from detection_result limit ${start}, ${size};
     </select>
 </mapper>

@@ -29,11 +29,12 @@ public class DetectionResultController {
         return result;
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public CommonResult<List<Object>> list() {
+    @RequestMapping(value = "/getResultByPage", method = RequestMethod.GET)
+    public CommonResult<List<Object>> list(@RequestParam("start") int start,
+                                           @RequestParam("size") int size) {
         CommonResult<List<Object>> result = new CommonResult<>();
         try {
-            List<Object> ans = detectionResultService.getAll();
+            List<Object> ans = detectionResultService.getResultByPage(start, size);
             result.setData(ans);
             result.setMsg("查询全部检测结果成功");
         } catch (Exception e) {

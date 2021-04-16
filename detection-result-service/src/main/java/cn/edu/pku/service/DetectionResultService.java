@@ -8,5 +8,5 @@ public interface DetectionResultService {
 
     int getTotal();
 
-    List<Object> getAll();
+    List<Object> getResultByPage(int start, int size);
 }

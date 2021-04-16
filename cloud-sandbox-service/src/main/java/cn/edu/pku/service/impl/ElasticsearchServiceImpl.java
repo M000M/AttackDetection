@@ -125,7 +125,7 @@ public class ElasticsearchServiceImpl implements ElasticsearchService {
             SearchResponse response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
 
             SearchHit[] hits = response.getHits().getHits();
-            for (int i = hits.length - 1; i >= 0; i--) {
+            for (int i = 0; i < hits.length; i++) {
                 SearchHit hit = hits[i];
                 String log = hit.getSourceAsString();
                 //System.out.println(log);
@@ -145,7 +145,7 @@ public class ElasticsearchServiceImpl implements ElasticsearchService {
                     obj1.put("log", message);
                     obj1.put("time", TimeUtils.formatTime(new Date()));
                 }
-                rabbitTemplate.convertAndSend("attack logs", obj1.getString("log")); //发送到消息队列
+                rabbitTemplate.convertAndSend("attack logs", "", obj1.getString("log")); //发送到消息队列
                 result.add(obj1);
             }
         } catch (Exception e) {
