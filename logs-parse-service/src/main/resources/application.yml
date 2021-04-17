@@ -13,7 +13,7 @@ spring:
 
   rabbitmq:
     #host: 172.16.17.10
-    host: 192.168.1.10
+    host: 192.168.1.80
     port: 5672
     username: ems
     password: 123

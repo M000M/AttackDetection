@@ -1,8 +1,6 @@
 package cn.edu.pku.service;
 
 import cn.edu.pku.entities.ContainerInfo;
-import com.github.dockerjava.api.command.CreateContainerResponse;
-import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.Image;
 
 import java.util.List;

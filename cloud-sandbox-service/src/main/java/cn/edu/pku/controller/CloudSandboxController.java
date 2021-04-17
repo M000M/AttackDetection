@@ -113,15 +113,15 @@ public class CloudSandboxController {
             boolean res = dockerContainerService.stopContainer(containerInfo);
             if (res) {
                 result.setData(true);
-                result.setMsg("创建容器成功");
+                result.setMsg("停止容器成功");
             } else {
                 result.setData(false);
-                result.setMsg("创建容器失败");
+                result.setMsg("停止容器失败");
             }
         } catch (Exception e) {
             e.printStackTrace();
             result.setStatus(false);
-            result.setMsg("创建容器异常");
+            result.setMsg("停止容器异常");
         }
         return result;
     }

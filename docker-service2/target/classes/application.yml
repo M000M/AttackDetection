@@ -1,5 +1,5 @@
 server:
-  port: 8003
+  port: 8002
 
 spring:
   application:
@@ -50,5 +50,5 @@ docker:
   #  ipAddress: "127.0.0.1"
   #host: "tcp://49.232.78.91:2375"
   #ipAddress: "49.232.78.91"
-  host: "tcp://192.168.1.81:2375"
-  ipAddress: "192.168.1.81"
+  host: "tcp://192.168.1.80:2375"
+  ipAddress: "192.168.1.80"
