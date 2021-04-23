@@ -10,4 +10,9 @@
     <select id="getChinaIPLocationList" resultMap="chinaIpLocation">
         select * from china_ip_location;
     </select>
+
+    <insert id="addIpRecord" parameterType="java.lang.String">
+        insert into china_ip_location (`ip`, `province`, `count`, `time`)
+        values(${ip}, ${province}, ${count}, ${time});
+    </insert>
 </mapper>

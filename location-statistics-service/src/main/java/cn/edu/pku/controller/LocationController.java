@@ -4,10 +4,7 @@ import cn.edu.pku.entities.ChinaIpLocation;
 import cn.edu.pku.entities.CommonResult;
 import cn.edu.pku.service.LocationService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;

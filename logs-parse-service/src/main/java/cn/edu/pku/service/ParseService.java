@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,6 +23,9 @@ public class ParseService {
 
     @Resource
     private ResultService resultService;
+
+    @Resource
+    private RabbitTemplate rabbitTemplate;
 
     private List<RegularExpression> expressions = null;
 
@@ -54,6 +58,7 @@ public class ParseService {
         if (expressions == null) {
             expressions = expressionService.getAllExpression();
         }
+        System.out.println(message);
         //DetectionResult detectionResult = new DetectionResult();
         JSONObject obj = new JSONObject();
         String pattern = null;
@@ -81,6 +86,10 @@ public class ParseService {
         }
         if (obj.length() < 3) {
             return;
+        }
+        if (obj.getString("ip") != null) {
+            String ip = obj.getString("ip");
+            rabbitTemplate.convertAndSend("ip address", "", ip);
         }
         String str = obj.toString();
         System.out.println(str);

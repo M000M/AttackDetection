@@ -68,7 +68,8 @@ public class ElasticsearchServiceImpl implements ElasticsearchService {
         List<Object> logs = getLogByPage(lastPosition, newPosition - lastPosition);
         for (Object obj: logs) {
             JSONObject obj1 = (JSONObject) obj;
-            rabbitTemplate.convertAndSend("attack logs", "", obj1.getString("log")); //发送到消息队列
+            //rabbitTemplate.convertAndSend("attack logs", "", obj1.getString("log")); //发送到消息队列
+            rabbitTemplate.convertAndSend("ip address", "", obj1.getString("log")); //发送到消息队列
         }
     }
 
