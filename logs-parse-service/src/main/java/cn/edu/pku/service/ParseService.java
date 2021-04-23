@@ -1,15 +1,20 @@
 package cn.edu.pku.service;
 
 import cn.edu.pku.entities.RegularExpression;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.impl.AMQImpl;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.AmqpHeaders;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,19 +45,24 @@ public class ParseService {
 //    }
 
     @RabbitListener(queuesToDeclare = @Queue("attack logs"))
-    public void parseLogs1(String message) throws JSONException {
+    public void parseLogs1(String message, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws JSONException {
         helper(message);
+        try {
+            channel.basicAck(tag, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    @RabbitListener(queuesToDeclare = @Queue("attack logs"))
-    public void parseLogs2(String message) throws JSONException {
-        helper(message);
-    }
-
-    @RabbitListener(queuesToDeclare = @Queue("attack logs"))
-    public void parseLogs3(String message) throws JSONException {
-        helper(message);
-    }
+//    @RabbitListener(queuesToDeclare = @Queue("attack logs"))
+//    public void parseLogs2(String message) throws JSONException {
+//        helper(message);
+//    }
+//
+//    @RabbitListener(queuesToDeclare = @Queue("attack logs"))
+//    public void parseLogs3(String message) throws JSONException {
+//        helper(message);
+//    }
 
     private void helper(String message) throws JSONException {
         if (expressions == null) {
@@ -89,7 +99,7 @@ public class ParseService {
         }
         if (obj.getString("ip") != null) {
             String ip = obj.getString("ip");
-            rabbitTemplate.convertAndSend("ip address", "", ip);
+            rabbitTemplate.convertAndSend("address", "", ip);
         }
         String str = obj.toString();
         System.out.println(str);

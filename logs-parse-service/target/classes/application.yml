@@ -12,12 +12,18 @@ spring:
     password: s002611
 
   rabbitmq:
-    host: 172.16.17.10
-    #host: 192.168.1.80
+    #host: 172.16.17.10
+    host: 192.168.1.80
     port: 5672
     username: ems
     password: 123
     virtual-host: /ems
+    listener:
+      simple:
+        acknowledge-mode: manual
+        concurrency: 1
+        max-concurrency: 1
+        prefetch: 1
   cloud:
     consul:
       host: localhost

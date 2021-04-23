@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 //@RabbitListener(queuesToDeclare = @Queue("ip address"))
 public class ParseIpService {
 
-    @RabbitListener(queuesToDeclare = @Queue("ip address"))
+    @RabbitListener(queuesToDeclare = @Queue("address"))
     public void parseIp(String message) {
         try {
             TimeUnit.SECONDS.sleep(2);
