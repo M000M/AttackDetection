@@ -20,8 +20,8 @@ public class MQTest {
 
     @Test
     public void test1() {
-        for (int i = 0; i < 100; i++) {
-            rabbitTemplate.convertAndSend("ip address", "", "49.232.78.91");
+        for (int i = 0; i < 1000; i++) {
+            rabbitTemplate.convertAndSend("attack logs", "", "49.232.78.91");
         }
     }
 
