@@ -99,7 +99,7 @@ public class ParseService {
         }
         if (obj.getString("ip") != null) {
             String ip = obj.getString("ip");
-            rabbitTemplate.convertAndSend("address", "", ip);
+            rabbitTemplate.convertAndSend("address", ip);
         }
         String str = obj.toString();
         System.out.println(str);

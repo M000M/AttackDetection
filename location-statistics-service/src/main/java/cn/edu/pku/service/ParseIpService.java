@@ -1,40 +1,22 @@
 package cn.edu.pku.service;
 
 import cn.edu.pku.utils.HttpUtils;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
-import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.params.HttpMethodParams;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.springframework.amqp.rabbit.annotation.Queue;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Service
 //@RabbitListener(queuesToDeclare = @Queue("ip address"))
 public class ParseIpService {
-    //private static String host = "http://cz88.rtbasia.com";
-    private static String host = "http://ip-api.com";
-    //private static String path = "/search";
-    private static String path = "/json/";
+    private static String host = "http://cz88.rtbasia.com";
+    //private static String host = "http://ip-api.com";
+    private static String path = "/search";
+    //private static String path = "/json/";
     private static String method = "GET";
     private static String appcode = "e3ae57b8c1e7462a9111759944c5834a";
     private static Map<String, String> headers = new HashMap<String, String>();
@@ -43,16 +25,16 @@ public class ParseIpService {
     private static Map<String, String> querys = new HashMap<String, String>();
 
     private static int num = 0;
-//    public ParseIpService() {
-//        headers.put("Authorization", "APPCODE " + appcode);
-//    }
+    public ParseIpService() {
+        headers.put("Authorization", "APPCODE " + appcode);
+    }
 
     @RabbitListener(queuesToDeclare = @Queue("address"))
     public void parseIp(String message) {
         System.out.println("第 " + num++ + " 次查询");
         System.out.println(message);
         try {
-//            querys.put("ip", message);
+            querys.put("ip", message);
             /**
              * 重要提示如下:
              * HttpUtils请从
