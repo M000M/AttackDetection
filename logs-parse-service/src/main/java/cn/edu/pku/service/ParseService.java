@@ -45,24 +45,19 @@ public class ParseService {
 //    }
 
     @RabbitListener(queuesToDeclare = @Queue("attack logs"))
-    public void parseLogs1(String message, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws JSONException {
+    public void parseLogs1(String message) throws JSONException {
         helper(message);
-        try {
-            channel.basicAck(tag, true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
-//    @RabbitListener(queuesToDeclare = @Queue("attack logs"))
-//    public void parseLogs2(String message) throws JSONException {
-//        helper(message);
-//    }
-//
-//    @RabbitListener(queuesToDeclare = @Queue("attack logs"))
-//    public void parseLogs3(String message) throws JSONException {
-//        helper(message);
-//    }
+    @RabbitListener(queuesToDeclare = @Queue("attack logs"))
+    public void parseLogs2(String message) throws JSONException {
+        helper(message);
+    }
+
+    @RabbitListener(queuesToDeclare = @Queue("attack logs"))
+    public void parseLogs3(String message) throws JSONException {
+        helper(message);
+    }
 
     private void helper(String message) throws JSONException {
         if (expressions == null) {

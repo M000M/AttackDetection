@@ -17,6 +17,6 @@ public class DetectionResult {
 
     private String str;
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date time;
 }

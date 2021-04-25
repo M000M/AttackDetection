@@ -21,7 +21,7 @@ spring:
     virtual-host: /ems
     listener:
       simple:
-        acknowledge-mode: manual
+        #acknowledge-mode: manual
         concurrency: 1
         max-concurrency: 1
         prefetch: 1
