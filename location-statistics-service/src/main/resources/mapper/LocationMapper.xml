@@ -3,16 +3,48 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.pku.dao.LocationMapper">
-    <resultMap type="cn.edu.pku.entities.ChinaIpLocation" id="chinaIpLocation">
-        <result property="name" column="province" jdbcType="VARCHAR"/>
-        <result property="value" column="count" jdbcType="INTEGER"/>
+    <resultMap id="chinaIpLocation" type="cn.edu.pku.entities.IpLocation">
+        <result column="province" property="name"/>
+        <result column="count" property="value"/>
     </resultMap>
-    <select id="getChinaIPLocationList" resultMap="chinaIpLocation">
+    <resultMap id="worldIpLocation" type="cn.edu.pku.entities.IpLocation">
+        <result column="country" property="name"/>
+        <result column="count" property="value"/>
+    </resultMap>
+
+    <select id="getChinaIpLocationList" resultMap="chinaIpLocation">
         select * from china_ip_location;
     </select>
 
-    <insert id="addIpRecord" parameterType="java.lang.String">
-        insert into china_ip_location (`ip`, `province`, `count`, `time`)
-        values(${ip}, ${province}, ${count}, ${time});
+    <insert id="addChinaIpRecord">
+        insert into china_ip_location(`province`, `count`)
+        values(#{province}, #{count});
     </insert>
+
+    <select id="getCountByProvince" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select ifnull((select `count` from china_ip_location where `province` = #{province}), 0) as count;
+    </select>
+
+    <update id="updateChinaIpRecord">
+        update china_ip_location set `count` = #{count} where `province` = #{province};
+    </update>
+
+    <!--World IP Location-->
+    <select id="getWorldIpLocationList" resultMap="worldIpLocation">
+        select * from world_ip_location;
+    </select>
+
+    <insert id="addWorldIpRecord">
+        insert into world_ip_location(`country`, `count`)
+        values(#{country}, #{count});
+    </insert>
+
+    <select id="getCountByCountry" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select ifnull((select `count` from world_ip_location where `country` = #{country}), 0) as count;
+    </select>
+
+    <update id="updateWorldIpRecord">
+        update world_ip_location set `count` = #{count} where `country` = #{country};
+    </update>
+
 </mapper>

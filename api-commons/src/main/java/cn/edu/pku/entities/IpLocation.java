@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @Setter
 @Getter
-public class ChinaIpLocation {
+public class IpLocation {
 
     private String name;
 
