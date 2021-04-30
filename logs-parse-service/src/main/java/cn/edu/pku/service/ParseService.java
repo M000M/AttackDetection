@@ -63,7 +63,7 @@ public class ParseService {
         if (expressions == null) {
             expressions = expressionService.getAllExpression();
         }
-        System.out.println(message);
+        //System.out.println(message);
         //DetectionResult detectionResult = new DetectionResult();
         JSONObject obj = new JSONObject();
         String pattern = null;
@@ -99,6 +99,6 @@ public class ParseService {
         String str = obj.toString();
         System.out.println(str);
         resultService.addResult(str);
-        System.out.println("-----------------------------------------");
+        System.out.println("-----------------------------------------------------------------------");
     }
 }
