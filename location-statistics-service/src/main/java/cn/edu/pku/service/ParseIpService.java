@@ -27,8 +27,12 @@ public class ParseIpService {
     @Resource
     private LocationService locationService;
 
+    @Resource
+    private StatisticsService statisticsService;
+
     @RabbitListener(queuesToDeclare = @Queue("address"))
     public void parseIp(String message) throws IOException {
+        statisticsService.addRecord(message);
         String query = worldPath + message;
         Request request = new Request.Builder()
                 .url(query)
