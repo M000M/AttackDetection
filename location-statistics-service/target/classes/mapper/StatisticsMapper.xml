@@ -3,6 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.pku.dao.StatisticsMapper">
+    <resultMap id="ipNum" type="cn.edu.pku.entities.IpLocation">
+        <result column="ip" property="name"/>
+        <result column="count" property="value"/>
+    </resultMap>
+
     <insert id="addRecord" parameterType="cn.edu.pku.entities.StatisticsInfo">
         insert into statistics (`ip`, `count`, `date`) values(#{ip}, #{count}, #{date});
     </insert>
@@ -14,4 +19,12 @@
     <update id="updateRecord" parameterType="cn.edu.pku.entities.StatisticsInfo">
         update statistics set `count`=#{count} where `id`=#{id};
     </update>
+
+    <select id="getCountByDate" resultType="java.lang.Integer">
+        select ifnull((select sum(`count`) from statistics where `date`=#{date}), 0) as count;
+    </select>
+
+    <select id="getTop10" resultMap="ipNum">
+        select `ip`, sum(`count`) as count from statistics group by `ip` order by count desc limit 0, 10;
+    </select>
 </mapper>

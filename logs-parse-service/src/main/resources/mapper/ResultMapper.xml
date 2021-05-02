@@ -8,6 +8,6 @@
     </select>
 
     <insert id="addResult" parameterType="java.lang.String">
-        insert into detection_result(`str`, `time`) values(#{str}, now());
+        insert into detection_result(`str`) values(#{str});
     </insert>
 </mapper>

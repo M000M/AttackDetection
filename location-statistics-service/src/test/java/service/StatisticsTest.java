@@ -10,11 +10,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @SpringBootTest(classes = LocationStatisticsServiceMain.class)
 @RunWith(SpringRunner.class)
 public class StatisticsTest {
+
+    private static final long oneDayMillis = (long) 1000 * 60 * 60 * 24;
 
     @Resource
     private StatisticsMapper statisticsMapper;
@@ -62,6 +66,22 @@ public class StatisticsTest {
             System.out.println("update success.");
         } else {
             System.out.println("update failure.");
+        }
+    }
+
+    @Test
+    public void test2() {
+        List<String> result = new ArrayList<>();
+        Date today = new Date();
+        result.add(DateUtils.fromDateToString(today));
+        long now = today.getTime();
+        for (int i = 1; i <= 6; i++) {
+            long time = now - i * oneDayMillis;
+            Date date = new Date(time);
+            result.add(DateUtils.fromDateToString(date));
+        }
+        for (String str: result) {
+            System.out.println(str);
         }
     }
 }
