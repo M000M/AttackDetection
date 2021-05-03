@@ -39,7 +39,6 @@ public class StatisticsController {
         CommonResult<List<Integer>> result = new CommonResult<>();
         try {
             List<Integer> ans = statisticsService.getData();
-            System.out.println(ans);
             result.setData(ans);
             result.setMsg("获取一周内的数据成功");
         } catch (Exception e) {
@@ -62,7 +61,6 @@ public class StatisticsController {
             result.setMsg("获取最多攻击IP异常");
             e.printStackTrace();
         }
-        System.out.println(result);
         return result;
     }
 }
