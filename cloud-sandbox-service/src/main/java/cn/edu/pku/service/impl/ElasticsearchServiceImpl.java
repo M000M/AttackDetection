@@ -113,7 +113,6 @@ public class ElasticsearchServiceImpl implements ElasticsearchService {
                     obj1.put("log", message);
                     obj1.put("time", TimeUtils.formatTime(new Date()));
                 }
-                rabbitTemplate.convertAndSend("attack logs", obj1.getString("log")); //发送到消息队列
                 result.add(obj1);
             }
         } catch (Exception e) {

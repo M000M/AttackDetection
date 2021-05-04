@@ -49,15 +49,15 @@ public class ParseService {
         helper(message);
     }
 
-    @RabbitListener(queuesToDeclare = @Queue("attack logs"))
-    public void parseLogs2(String message) throws JSONException {
-        helper(message);
-    }
-
-    @RabbitListener(queuesToDeclare = @Queue("attack logs"))
-    public void parseLogs3(String message) throws JSONException {
-        helper(message);
-    }
+//    @RabbitListener(queuesToDeclare = @Queue("attack logs"))
+//    public void parseLogs2(String message) throws JSONException {
+//        helper(message);
+//    }
+//
+//    @RabbitListener(queuesToDeclare = @Queue("attack logs"))
+//    public void parseLogs3(String message) throws JSONException {
+//        helper(message);
+//    }
 
     private void helper(String message) throws JSONException {
         if (expressions == null) {

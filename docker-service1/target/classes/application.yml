@@ -5,7 +5,7 @@ spring:
   application:
     name: cloud-docker-service
 
-# consul注册中心地址
+  # consul注册中心地址
   cloud:
     consul:
       host: 127.0.0.1
@@ -38,11 +38,11 @@ spring:
 #    lease-expiration-duration-in-seconds: 2
 
 docker:
-  # host: "tcp://192.168.1.80:2375"
-  # ipAddress: "192.168.1.80"
-  # host: "tcp://81.70.240.72:2375"
-  # ipAddress: "81.70.240.72"
+  host: "tcp://81.70.240.72:2375"
+  ipAddress: "81.70.240.72"
+
   # host: "tcp://127.0.0.1:2375"
   # ipAddress: "127.0.0.1"
-  host: "tcp://49.232.78.91:2375"
-  ipAddress: "49.232.78.91"
+
+  # host: "tcp://49.232.78.91:2375"
+  # ipAddress: "49.232.78.91"
