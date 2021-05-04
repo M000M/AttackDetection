@@ -9,3 +9,5 @@ CREATE TABLE statistics(
     `date` DATE NOT NULL,
     PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+alter table statistics add index (date);
