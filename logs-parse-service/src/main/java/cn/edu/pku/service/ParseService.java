@@ -34,6 +34,9 @@ public class ParseService {
 
     private List<RegularExpression> expressions = null;
 
+
+    private static final String reg = "[^a-zA-Z ]";
+
 //    @RabbitHandler
 //    public void parseLogs(String message) {
 //        try {
@@ -46,6 +49,9 @@ public class ParseService {
 
     @RabbitListener(queuesToDeclare = @Queue("attack logs"))
     public void parseLogs1(String message) throws JSONException {
+        Pattern p = Pattern.compile("\r|\n");
+        Matcher m = p.matcher(message);
+        message = m.replaceAll("");
         helper(message);
     }
 
@@ -85,7 +91,8 @@ public class ParseService {
             if (type == 2) {
                 boolean isMatch = Pattern.matches(pattern, message);
                 if (isMatch) {
-                    obj.put(field, pattern);
+                    String str = pattern.replaceAll(reg, "");
+                    obj.put(field, str);
                 }
             }
         }
