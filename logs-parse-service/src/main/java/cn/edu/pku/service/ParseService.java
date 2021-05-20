@@ -89,7 +89,7 @@ public class ParseService {
                 }
             }
         }
-        if (obj.length() < 3) {
+        if (obj.length() < 2) {
             return;
         }
         if (obj.getString("ip") != null) {
