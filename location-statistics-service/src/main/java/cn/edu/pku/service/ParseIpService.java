@@ -21,7 +21,8 @@ public class ParseIpService {
 
     // Parse China IP
     private static final String path = "http://cz88.rtbasia.com/search";
-    private static final String appcode = "e3ae57b8c1e7462a9111759944c5834a";
+    //private static final String appcode = "e3ae57b8c1e7462a9111759944c5834a";
+    private static final String appcode = "a8a0afff65f942279e09cdd97ff75d15";
     HttpUrl.Builder urlBuilder = Objects.requireNonNull(HttpUrl.parse(path)).newBuilder();
 
     @Resource
@@ -47,6 +48,9 @@ public class ParseIpService {
             || countryName.equals("Taiwan")
             || countryName.equals("Macao")) {
                 countryName = "China";
+            }
+            if (countryName.equals("South Korea")) {
+                countryName = "Korea";
             }
             boolean res = locationService.addWorldIpRecord(countryName);
             if (res && (countryName.equals("China"))) {
