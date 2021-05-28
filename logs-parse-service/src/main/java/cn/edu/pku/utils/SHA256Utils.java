@@ -1,4 +1,4 @@
-package utils;
+package cn.edu.pku.utils;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -20,5 +20,4 @@ public class SHA256Utils {
             throw new RuntimeException(e);
         }
     }
-
 }

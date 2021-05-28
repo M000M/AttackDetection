@@ -1,6 +1,8 @@
 package cn.edu.pku.service;
 
+import cn.edu.pku.entities.CommonResult;
 import cn.edu.pku.entities.RegularExpression;
+import cn.edu.pku.utils.SHA256Utils;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.impl.AMQImpl;
 import org.json.JSONException;
@@ -30,6 +32,12 @@ public class ParseService {
     private ResultService resultService;
 
     @Resource
+    private VerificationLogsService verificationLogsService;
+
+    @Resource
+    private DAGFeignService dagFeignService;
+
+    @Resource
     private RabbitTemplate rabbitTemplate;
 
     private List<RegularExpression> expressions = null;
@@ -52,6 +60,11 @@ public class ParseService {
         Pattern p = Pattern.compile("\r|\n");
         Matcher m = p.matcher(message);
         message = m.replaceAll("");
+        verificationLogsService.addLog(message);
+        String logHash = SHA256Utils.sha256Code(message);
+        CommonResult<String> res = dagFeignService.addLogHash(logHash);
+        String hashAddress = res.getData();
+        System.out.println(hashAddress);
         helper(message);
     }
 

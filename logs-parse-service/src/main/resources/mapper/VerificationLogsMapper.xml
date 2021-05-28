@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.pku.dao.VerificationLogsMapper">
+    <insert id="addLog">
+        insert into attack_logs(`message`, `hash`) values(#{message}, #{hash});
+    </insert>
+
+    <select id="getLogById" resultType="java.lang.String">
+        select `message` from attack_logs where `id`=#{id};
+    </select>
+
+    <select id="getLogHashById" resultType="java.lang.String">
+        select `hash` from attack_logs where `id`=#{id};
+    </select>
+</mapper>

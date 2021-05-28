@@ -23,7 +23,7 @@ public class BlockServiceImpl implements BlockService {
     @Autowired
     private BlockMapper blockMapper;
 
-    private TreeSet<Block> blockSet = new TreeSet<>();
+    private final TreeSet<Block> blockSet = new TreeSet<>();
 
     private void init() {
         blockSet.addAll(blockMapper.getBlockList());
