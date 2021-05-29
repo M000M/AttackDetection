@@ -66,7 +66,7 @@ public class BlockServiceImpl implements BlockService {
         Block block = new Block();
         block.setData(data);
         block.setNum(0);
-        block.setTimestamp(System.currentTimeMillis() / 1000);
+        //block.setTimestamp(System.currentTimeMillis() / 1000);
         if (blockSet.size() >= 2) {
             Block pre1 = blockSet.pollFirst();
             Block pre2 = blockSet.pollFirst();
@@ -77,6 +77,7 @@ public class BlockServiceImpl implements BlockService {
 
             block.setPre1(pre1.getHash());
             block.setPre2(pre2.getHash());
+            //hash = SHA256Utils.sha256Code(pre1.getHash() + pre2.getHash() + data + block.getTimestamp());
             hash = SHA256Utils.sha256Code(pre1.getHash() + pre2.getHash() + data + block.getTimestamp());
             block.setHash(hash);
             blockSet.add(block);

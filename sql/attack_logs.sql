@@ -6,6 +6,5 @@ create table `attack_logs`(
     `id` bigint not null auto_increment,
     `message` text not null,
     `hash` text not null,
-    `time` datetime not null,
     primary key(`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;

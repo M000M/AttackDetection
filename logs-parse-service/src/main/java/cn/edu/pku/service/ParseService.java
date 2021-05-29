@@ -60,10 +60,11 @@ public class ParseService {
         Pattern p = Pattern.compile("\r|\n");
         Matcher m = p.matcher(message);
         message = m.replaceAll("");
-        verificationLogsService.addLog(message);
+
         String logHash = SHA256Utils.sha256Code(message);
         CommonResult<String> res = dagFeignService.addLogHash(logHash);
         String hashAddress = res.getData();
+        verificationLogsService.addLog(message, hashAddress);
         System.out.println(hashAddress);
         helper(message);
     }

@@ -14,11 +14,10 @@ public class VerificationLogsServiceImpl implements VerificationLogsService {
     private VerificationLogsMapper verificationLogsMapper;
 
     @Override
-    public boolean addLog(String message) {
-        String hash = SHA256Utils.sha256Code(message);
+    public boolean addLog(String message, String hashAddress) {
         int res = 0;
         try {
-            res = verificationLogsMapper.addLog(message, hash);
+            res = verificationLogsMapper.addLog(message, hashAddress);
         } catch (Exception e) {
             e.printStackTrace();
         }
