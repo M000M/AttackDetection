@@ -10,5 +10,5 @@ public interface VerificationLogsMapper {
 
     String getLogById(@Param("id") long id);
 
-    String getLogHashById(long id);
+    String getLogHashById(@Param("id") long id);
 }

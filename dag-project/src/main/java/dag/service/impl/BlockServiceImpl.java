@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import utils.SHA256Utils;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.TreeSet;
 import java.util.concurrent.Future;
@@ -18,9 +19,7 @@ import java.util.concurrent.Future;
 @Slf4j
 public class BlockServiceImpl implements BlockService {
 
-    //private BlockMapper blockMapper = MybatisUtils.getSqlSession().getMapper(BlockMapper.class);
-
-    @Autowired
+    @Resource
     private BlockMapper blockMapper;
 
     private final TreeSet<Block> blockSet = new TreeSet<>();
@@ -31,7 +30,6 @@ public class BlockServiceImpl implements BlockService {
 
     /***
      * 获取节点列表
-     * @return
      */
     @Override
     public List<Block> getBlockList() {
@@ -40,25 +38,20 @@ public class BlockServiceImpl implements BlockService {
 
     /***
      * 根据节点ID获取节点信息
-     * @param id
-     * @return
      */
     @Override
-    @Async("asyncServiceExecutor")
     public Block getBlockById(int id) {
-        log.info("getBlockById\t threadId: {} ", Thread.currentThread().getId());
+        //log.info("getBlockById\t threadId: {} ", Thread.currentThread().getId());
         return blockMapper.getBlockById(id);
     }
 
     /***
      * 添加节点
-     * @param data
-     * @return
      */
     @Override
     @Async("asyncServiceExecutor")
     public Future<String> addBlock(String data) {
-        log.info("addBlock\t threadId: {} ", Thread.currentThread().getId());
+        //log.info("addBlock\t threadId: {} ", Thread.currentThread().getId());
         if (blockSet.isEmpty()) {
             init();
         }
@@ -107,7 +100,7 @@ public class BlockServiceImpl implements BlockService {
     @Override
     @Async("asyncServiceExecutor")
     public Future<String> getBlockByHash(String hash) {
-        log.info("getBlockByHash\t threadId: {} ", Thread.currentThread().getId());
+        //log.info("getBlockByHash\t threadId: {} ", Thread.currentThread().getId());
         try {
             Block block = blockMapper.getBlockByHash(hash);
             if (block != null) {

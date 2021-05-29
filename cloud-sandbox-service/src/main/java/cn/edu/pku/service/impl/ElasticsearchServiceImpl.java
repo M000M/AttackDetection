@@ -1,9 +1,7 @@
 package cn.edu.pku.service.impl;
 
 import cn.edu.pku.dao.PositionMapper;
-import cn.edu.pku.entities.NginxLogInfo;
 import cn.edu.pku.service.ElasticsearchService;
-import cn.edu.pku.utils.JsonUtils;
 import cn.edu.pku.utils.TimeUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -18,9 +16,6 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.sort.FieldSortBuilder;
-import org.elasticsearch.search.sort.SortBuilder;
-import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
@@ -93,7 +88,8 @@ public class ElasticsearchServiceImpl implements ElasticsearchService {
             SearchResponse response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
 
             SearchHit[] hits = response.getHits().getHits();
-            for (int i = hits.length - 1; i >= 0; i--) {
+            //for (int i = hits.length - 1; i >= 0; i--) {
+            for (int i = 0; i < hits.length; i++) {
                 SearchHit hit = hits[i];
                 String log = hit.getSourceAsString();
                 //System.out.println(log);

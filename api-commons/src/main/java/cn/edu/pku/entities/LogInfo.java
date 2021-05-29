@@ -2,18 +2,15 @@ package cn.edu.pku.entities;
 
 import lombok.*;
 
-import java.io.Serializable;
-import java.util.Date;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @ToString
-public class LogInfo implements Serializable {
+public class LogInfo {
 
-    private Date time;
+    private long id;
 
-    private String log;
+    private String message;
 }

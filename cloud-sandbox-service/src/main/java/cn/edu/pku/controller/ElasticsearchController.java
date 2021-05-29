@@ -1,7 +1,6 @@
 package cn.edu.pku.controller;
 
 import cn.edu.pku.entities.CommonResult;
-import cn.edu.pku.entities.NginxLogInfo;
 import cn.edu.pku.service.ElasticsearchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
