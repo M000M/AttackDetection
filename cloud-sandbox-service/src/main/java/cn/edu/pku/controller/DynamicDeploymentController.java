@@ -30,4 +30,19 @@ public class DynamicDeploymentController {
         }
         return result;
     }
+
+    @RequestMapping(value = "/getRecentAttackCount", method = RequestMethod.GET)
+    public CommonResult<Integer> getRecentAttackCount(@RequestParam("key") String key) {
+        CommonResult<Integer> result = new CommonResult<>();
+        try {
+            int res = dynamicDeploymentService.getRecentAttackCount(key);
+            result.setData(res);
+            result.setMsg("获取最近攻击次数成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setStatus(false);
+            result.setMsg("获取最近攻击次数异常");
+        }
+        return result;
+    }
 }
