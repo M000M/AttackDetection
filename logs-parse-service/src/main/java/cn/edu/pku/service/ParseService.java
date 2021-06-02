@@ -71,7 +71,7 @@ public class ParseService {
     private static final String honeytrapKey = "honeytrap";
 
     // Redis 过期时间，设置为 180 秒 (3分钟)
-    private static final int EXPIRE_TIME = 180;
+    private static final int EXPIRE_TIME = 60;
 
     private static final String reg = "[^a-zA-Z ]";
 
@@ -159,7 +159,7 @@ public class ParseService {
     private void refreshRedis(String message) {
         if (Pattern.matches(cowriePattern, message)) { // cowrie型蜜罐
             redisUtils.incr(cowrieKey, 1);
-            redisUtils.expire(cowrieKey, EXPIRE_TIME);
+            redisUtils.expire(cowrieKey, 60);
         } else if (Pattern.matches(conpotPattern, message)) { // conpot型蜜罐
             redisUtils.incr(conpotKey, 1);
             redisUtils.expire(conpotKey, EXPIRE_TIME);
