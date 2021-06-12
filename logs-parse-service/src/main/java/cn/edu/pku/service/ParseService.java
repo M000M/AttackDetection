@@ -2,6 +2,7 @@ package cn.edu.pku.service;
 
 import cn.edu.pku.entities.CommonResult;
 import cn.edu.pku.entities.RegularExpression;
+import cn.edu.pku.utils.RedisUtils;
 import cn.edu.pku.utils.SHA256Utils;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.impl.AMQImpl;
@@ -40,8 +41,37 @@ public class ParseService {
     @Resource
     private RabbitTemplate rabbitTemplate;
 
+    @Resource
+    private RedisUtils redisUtils;
+
     private List<RegularExpression> expressions = null;
 
+    /***
+     * 判断是哪种蜜罐类型的蜜罐受到攻击的正则表达式
+     */
+    private static final String cowriePattern = ".*CowrieSSHFactory.*";
+
+    private static final String conpotPattern = ".*HTTP/1.1.*";
+
+    private static final String adbhoneyPattern = ".*adbhoney.*";
+
+    private static final String citrixhoneypotPattern = ".*GET Header:.*";
+
+    private static final String honeytrapPattern = ".*honeytrap/server.*";
+
+    // Redis 中几种类型蜜罐的键
+    private static final String cowrieKey = "cowrie";
+
+    private static final String conpotKey = "conpot";
+
+    private static final String adbhoneyKey = "adbhoney";
+
+    private static final String citrixhoneypotKey = "citrixhoneypot";
+
+    private static final String honeytrapKey = "honeytrap";
+
+    // Redis 过期时间，设置为 180 秒 (3分钟)
+    private static final int EXPIRE_TIME = 60;
 
     private static final String reg = "[^a-zA-Z ]";
 
@@ -65,6 +95,7 @@ public class ParseService {
         CommonResult<String> res = dagFeignService.addLogHash(logHash);
         String hashAddress = res.getData();
         verificationLogsService.addLog(message, hashAddress);
+        refreshRedis(message);
         helper(message);
     }
 
@@ -118,5 +149,29 @@ public class ParseService {
         System.out.println(str);
         resultService.addResult(str);
         System.out.println("-----------------------------------------------------------------------");
+    }
+
+    /***
+     * 根据日志中的关键信息，判断是哪种类型蜜罐的攻击，
+     * 更新该蜜罐最近一分钟所遭受的攻击次数
+     * @param message
+     */
+    private void refreshRedis(String message) {
+        if (Pattern.matches(cowriePattern, message)) { // cowrie型蜜罐
+            redisUtils.incr(cowrieKey, 1);
+            redisUtils.expire(cowrieKey, 60);
+        } else if (Pattern.matches(conpotPattern, message)) { // conpot型蜜罐
+            redisUtils.incr(conpotKey, 1);
+            redisUtils.expire(conpotKey, EXPIRE_TIME);
+        } else if (Pattern.matches(adbhoneyPattern, message)) { // adbhoney型蜜罐
+            redisUtils.incr(adbhoneyKey, 1);
+            redisUtils.expire(adbhoneyKey, EXPIRE_TIME);
+        } else if (Pattern.matches(citrixhoneypotPattern, message)) { // citrixhoneypot型蜜罐
+            redisUtils.incr(citrixhoneypotKey, 1);
+            redisUtils.expire(citrixhoneypotKey, EXPIRE_TIME);
+        } else if (Pattern.matches(honeytrapPattern, message)) {
+            redisUtils.incr(honeytrapKey, 1);
+            redisUtils.expire(honeytrapKey, EXPIRE_TIME);
+        }
     }
 }
