@@ -22,7 +22,8 @@ public class ParseIpService {
     // Parse China IP
     private static final String path = "http://cz88.rtbasia.com/search";
     //private static final String appcode = "e3ae57b8c1e7462a9111759944c5834a";
-    private static final String appcode = "a8a0afff65f942279e09cdd97ff75d15";
+    //private static final String appcode = "a8a0afff65f942279e09cdd97ff75d15";
+    private static final String appcode = "f15a8e42ff5143be9cf20356865b2407";
     HttpUrl.Builder urlBuilder = Objects.requireNonNull(HttpUrl.parse(path)).newBuilder();
 
     @Resource

@@ -38,8 +38,8 @@ spring:
 #    lease-expiration-duration-in-seconds: 2
 
 docker:
-  host: "tcp://81.70.240.72:2375"
-  ipAddress: "81.70.240.72"
+   host: "tcp://81.70.240.72:2375"
+   ipAddress: "81.70.240.72"
 
   # host: "tcp://127.0.0.1:2375"
   # ipAddress: "127.0.0.1"

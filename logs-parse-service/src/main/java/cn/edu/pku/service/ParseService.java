@@ -141,7 +141,7 @@ public class ParseService {
         if (obj.length() < 2) {
             return;
         }
-        if (obj.getString("ip") != null) {
+        if (obj.has("ip") && obj.getString("ip") != null) {
             String ip = obj.getString("ip");
             rabbitTemplate.convertAndSend("address", ip);
         }
