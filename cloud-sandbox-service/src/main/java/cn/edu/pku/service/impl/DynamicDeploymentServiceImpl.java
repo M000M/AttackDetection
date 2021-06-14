@@ -2,6 +2,8 @@ package cn.edu.pku.service.impl;
 
 import cn.edu.pku.dao.DockerContainerMapper;
 import cn.edu.pku.dao.DynamicDeploymentMapper;
+import cn.edu.pku.entities.ContainerInfo;
+import cn.edu.pku.service.DockerContainerService;
 import cn.edu.pku.service.DockerFeignService;
 import cn.edu.pku.service.DynamicDeploymentService;
 import cn.edu.pku.utils.RedisUtils;
@@ -16,7 +18,7 @@ public class DynamicDeploymentServiceImpl implements DynamicDeploymentService {
     private DynamicDeploymentMapper dynamicDeploymentMapper;
 
     @Resource
-    private DockerFeignService dockerFeignService;
+    private DockerContainerService dockerContainerService;
 
     @Resource
     private RedisUtils redisUtils;
@@ -69,7 +71,7 @@ public class DynamicDeploymentServiceImpl implements DynamicDeploymentService {
         Object value = redisUtils.get(key);
         int res = 0;
         if (value != null) {
-            res =  (Integer) value;
+            res = (Integer) value;
         }
         switch (key) {
             case "cowrie":
@@ -95,32 +97,144 @@ public class DynamicDeploymentServiceImpl implements DynamicDeploymentService {
 
     private void adjustDeployment() {
         // 调整cowrie蜜罐的部署
-        if (cowrieAttackCount * 1.0 / cowrieCount > cowrieRate) {
-            cowrieCount--;
+        if (cowrieCount == 0) {
+            try {
+                startAContainerByType("cowrie/cowrie:latest");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (cowrieAttackCount * 1.0 / cowrieCount > cowrieRate) {
+            try {
+                stopAContainerByType("cowrie/cowrie:latest");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                startAContainerByType("cowrie/cowrie:latest");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
         // 调整conpot蜜罐的部署
-        if (conpotAttackCount * 1.0 / conpotCount > conpotRate) {
-            conpotCount--;
+        if (conpotCount == 0) {
+            try {
+                startAContainerByType("conpot:latest");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (conpotAttackCount * 1.0 / conpotCount > conpotRate) {
+            try {
+                stopAContainerByType("conpot:latest");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                startAContainerByType("conpot:latest");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
         // 调整adbhoney蜜罐的部署
-        if (adbhoneyAttackCount * 1.0 / adbhoneyCount > adbhoneyRate) {
-            adbhoneyCount--;
+        if (adbhoneyCount == 0) {
+            try {
+                startAContainerByType("adbhoney:latest");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (adbhoneyAttackCount * 1.0 / adbhoneyCount > adbhoneyRate) {
+            try {
+                stopAContainerByType("adbhoney:latest");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                startAContainerByType("adbhoney:latest");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
         // 调整honeytrap蜜罐的部署
-        if (honeytrapAttackCount * 1.0 / honeytrapCount > adbhoneyRate) {
-            honeytrapCount--;
+        if (honeytrapCount == 0) {
+            try {
+                startAContainerByType("honeytrap/honeytrap:latest");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (honeytrapAttackCount * 1.0 / honeytrapCount > adbhoneyRate) {
+            try {
+                stopAContainerByType("honeytrap/honeytrap:latest");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                startAContainerByType("honeytrap/honeytrap:latest");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
         // 调整citrixhoneypot蜜罐的部署
-        if (citrixhoneypotAttackCount * 1.0 / citrixhoneypotCount > citrixhoneypotRate) {
-            citrixhoneypotCount--;
+        if (citrixhoneypotCount == 0) {
+            try {
+                startAContainerByType("citrixhoneypot:latest");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (citrixhoneypotAttackCount * 1.0 / citrixhoneypotCount > citrixhoneypotRate) {
+            try {
+                stopAContainerByType("citrixhoneypot:latest");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                startAContainerByType("citrixhoneypot:latest");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     private void stopAContainerByType(String type) {
-
+        ContainerInfo containerInfo = dynamicDeploymentMapper.getARunningContainerByType(type);
+        if (containerInfo != null && containerInfo.getContainerId() != null) {
+            dockerContainerService.stopContainer(containerInfo);
+        }
     }
 
     private void startAContainerByType(String type) {
+        ContainerInfo containerInfo = dynamicDeploymentMapper.getAExitedContainerByType(type);
+        if (containerInfo != null && containerInfo.getContainerId() != null) {
+            dockerContainerService.startContainer(containerInfo);
+        }
+    }
 
+    @Override
+    public boolean setAttackCountRateByType(String type, int maxRate) {
+        switch (type) {
+            case "cowrie":
+                cowrieRate = maxRate;
+                break;
+            case "conpot":
+                conpotRate = maxRate;
+                break;
+            case "adbhoney":
+                adbhoneyRate = maxRate;
+                break;
+            case "honeytrap":
+                honeytrapRate = maxRate;
+                break;
+            case "citrixhoneypot":
+                citrixhoneypotRate = maxRate;
+                break;
+        }
+        return true;
     }
 }

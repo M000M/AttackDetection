@@ -45,4 +45,20 @@ public class DynamicDeploymentController {
         }
         return result;
     }
+
+    @RequestMapping(value = "/setAttackCountRateByType", method = RequestMethod.GET)
+    public CommonResult<Boolean> setAttackCountRateByType(@RequestParam("type") String type, @RequestParam("maxRate") Integer maxRate) {
+        CommonResult<Boolean> result = new CommonResult<>();
+        try {
+            boolean res = dynamicDeploymentService.setAttackCountRateByType(type, maxRate);
+            result.setData(res);
+            result.setMsg(type + " 类型的攻击/数量比值设置为了 " + maxRate);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setStatus(false);
+            result.setData(false);
+            result.setMsg("设置新的攻击/数量比值异常");
+        }
+        return result;
+    }
 }

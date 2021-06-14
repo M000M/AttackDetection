@@ -159,7 +159,7 @@ public class ParseService {
     private void refreshRedis(String message) {
         if (Pattern.matches(cowriePattern, message)) { // cowrie型蜜罐
             redisUtils.incr(cowrieKey, 1);
-            redisUtils.expire(cowrieKey, 60);
+            redisUtils.expire(cowrieKey, EXPIRE_TIME);
         } else if (Pattern.matches(conpotPattern, message)) { // conpot型蜜罐
             redisUtils.incr(conpotKey, 1);
             redisUtils.expire(conpotKey, EXPIRE_TIME);

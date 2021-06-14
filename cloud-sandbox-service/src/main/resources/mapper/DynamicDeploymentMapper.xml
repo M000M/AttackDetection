@@ -3,7 +3,27 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.pku.dao.DynamicDeploymentMapper">
+    <resultMap type="cn.edu.pku.entities.ContainerInfo" id="container">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="containerId" column="container_id" jdbcType="VARCHAR"/>
+        <result property="image" column="image" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="VARCHAR"/>
+        <result property="privatePort" column="private_port" jdbcType="INTEGER"/>
+        <result property="publicPort" column="public_port" jdbcType="INTEGER"/>
+        <result property="host" column="host" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="valid" column="valid" jdbcType="INTEGER"/>
+    </resultMap>
     <select id="getRunningContainerCountByImageName" resultType="java.lang.Integer">
         select count(1) from containers_info where `image`=#{imageName} and `state`="Running" and valid=1;
+    </select>
+
+    <select id="getARunningContainerByType" resultMap="container">
+        select * from containers_info where `image`=#{type} and `state`="Running" and `valid`=1 limit 0, 1;
+    </select>
+
+    <select id="getAExitedContainerByType" resultMap="container">
+        select * from containers_info where `image`=#{type} and `state`="Exited" and `valid`=1 limit 0, 1;
     </select>
 </mapper>

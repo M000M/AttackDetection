@@ -93,7 +93,7 @@ public class DockerContainerServiceImpl implements DockerContainerService {
     }
 
     @Override
-    @Transactional
+    //@Transactional
     public boolean startContainer(ContainerInfo containerInfo) {
         Host host = hostsService.getHostByIp(containerInfo.getHost());
         int servicePort = host.getPort();
@@ -101,12 +101,13 @@ public class DockerContainerServiceImpl implements DockerContainerService {
         Boolean res = restTemplate.getForObject(serviceAddress, Boolean.class);
         containerInfo.setState(RUNNING); // 标记容器状态为Running
         int res1 = dockerContainerMapper.updateContainer(containerInfo);
-        if (res == null || !res || res1 == 0) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return false;
-        } else {
-            return true;
-        }
+        return res1 > 0;
+//        if (res == null || !res || res1 == 0) {
+//            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+//            return false;
+//        } else {
+//            return true;
+//        }
     }
 
     @Override
@@ -118,12 +119,13 @@ public class DockerContainerServiceImpl implements DockerContainerService {
         Boolean res = restTemplate.getForObject(serviceAddress, Boolean.class);
         containerInfo.setState(EXCITED); // 标记容器状态为Exited
         int res1 = dockerContainerMapper.updateContainer(containerInfo);
-        if (res == null || !res || res1 == 0) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return false;
-        } else {
-            return true;
-        }
+        return res1 > 0;
+//        if (res == null || !res || res1 == 0) {
+//            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+//            return false;
+//        } else {
+//            return true;
+//        }
     }
 
     @Override
