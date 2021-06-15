@@ -5,19 +5,15 @@ import cn.edu.pku.entities.RegularExpression;
 import cn.edu.pku.utils.RedisUtils;
 import cn.edu.pku.utils.SHA256Utils;
 import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.impl.AMQImpl;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.Queue;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.AmqpHeaders;
-import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -86,17 +82,21 @@ public class ParseService {
 //    }
 
     @RabbitListener(queuesToDeclare = @Queue("attack logs"))
-    public void parseLogs1(String message) throws JSONException {
+    public void parseLogs1(String msg, Message message, Channel channel) {
         Pattern p = Pattern.compile("\r|\n");
-        Matcher m = p.matcher(message);
-        message = m.replaceAll("");
+        Matcher m = p.matcher(msg);
+        msg = m.replaceAll("");
 
-        String logHash = SHA256Utils.sha256Code(message);
+        String logHash = SHA256Utils.sha256Code(msg);
         CommonResult<String> res = dagFeignService.addLogHash(logHash);
         String hashAddress = res.getData();
-        verificationLogsService.addLog(message, hashAddress);
-        refreshRedis(message);
-        helper(message);
+        verificationLogsService.addLog(msg, hashAddress);
+        refreshRedis(msg);
+        try {
+            helper(msg);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 //    @RabbitListener(queuesToDeclare = @Queue("attack logs"))

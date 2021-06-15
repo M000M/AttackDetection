@@ -143,11 +143,12 @@ public class DockerContainerServiceImpl implements DockerContainerService {
         Boolean res1 = restTemplate.getForObject(serviceAddress, Boolean.class);
         containerInfo.setValid(INVALID); //标记容器被删除
         int res2 = dockerContainerMapper.updateContainer(containerInfo);
-        if (res1 == null || !res1 || res2 == 0) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return false;
-        } else {
-            return true;
-        }
+        return res2 > 0;
+//        if (res1 == null || !res1 || res2 == 0) {
+//            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+//            return false;
+//        } else {
+//            return true;
+//        }
     }
 }
